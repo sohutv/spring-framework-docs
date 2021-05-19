@@ -1,6 +1,10 @@
 Spring WebFlux includes a client to perform HTTP requests with. `WebClient` has a functional, fluent API based on Reactor, see [web-reactive.xml](web-reactive.xml#webflux-reactive-libraries), which enables declarative composition of asynchronous logic without the need to deal with threads or concurrency. It is fully non-blocking, it supports streaming, and relies on the same [codecs](web-reactive.xml#webflux-codecs) that are also used to encode and decode request and response content on the server side.
 
+Spring WebFlux包括一个用于执行HTTP请求的客户端。 `WebClient`使用函数风格的流式API，基于Reactor实现，详细内容请参见[web-reactive.xml](web-reactive.xml＃webflux-reactive-libraries)，它实现了声明式的异步逻辑组合，而无需处理线程或者并发相关内容。 它是完全非阻塞的，支持流，并且依赖于与服务端相同的[编解码器](web-reactive.xml＃webflux-codecs)，该[编解码器]也用于在服务器端对请求和响应内容进行编码和解码。
+
 `WebClient` needs an HTTP client library to perform requests with. There is built-in support for the following:
+
+`WebClient` 需要一个HTTP客户端库来发出请求。内建支持以下几种：
 
   - [Reactor Netty](https://github.com/reactor/reactor-netty)
 
@@ -12,7 +16,11 @@ Spring WebFlux includes a client to perform HTTP requests with. `WebClient` has 
 
 # Configuration
 
+# 配置
+
 The simplest way to create a `WebClient` is through one of the static factory methods:
+
+创建`WebClient`最简单的方式是通过下面的静态工厂方法：
 
   - `WebClient.create()`
 
@@ -20,23 +28,43 @@ The simplest way to create a `WebClient` is through one of the static factory me
 
 You can also use `WebClient.builder()` with further options:
 
+也可以使用`WebClient.builder()`进行相关配置的自定义：
+
   - `uriBuilderFactory`: Customized `UriBuilderFactory` to use as a base URL.
+
+  - `uriBuilderFactory`: 自定义 `UriBuilderFactory` 使用一个基本的URL。
 
   - `defaultUriVariables`: default values to use when expanding URI templates.
 
+  - `defaultUriVariables`: 填充URI模板时使用的默认值。
+
   - `defaultHeader`: Headers for every request.
+
+  - `defaultHeader`: 请求默认Header。
 
   - `defaultCookie`: Cookies for every request.
 
+  - `defaultCookie`: 请求默认Cookies。
+
   - `defaultRequest`: `Consumer` to customize every request.
+
+  - `defaultRequest`: 用来定制请求的`Consumer`。
 
   - `filter`: Client filter for every request.
 
+  - `filter`: 处理请求的客户端过滤器。
+
   - `exchangeStrategies`: HTTP message reader/writer customizations.
+
+  - `exchangeStrategies`: 定制HTTP message reader/writer。
 
   - `clientConnector`: HTTP client library settings.
 
+  - `clientConnector`: HTTP客户端库相关配置。
+
 For example:
+
+例如：
 
 **Java.**
 
@@ -55,6 +83,8 @@ val webClient = WebClient.builder()
 ```
 
 Once built, a `WebClient` is immutable. However, you can clone it and build a modified copy as follows:
+
+一旦构建完成，`WebClient`就是不可变。但是，你可以创建一个克隆实例来进行配置修改。
 
 **Java.**
 
@@ -88,9 +118,13 @@ val client2 = client1.mutate()
 
 Codecs have [limits](web-reactive.xml#webflux-codecs-limits) for buffering data in memory to avoid application memory issues. By the default those are set to 256KB. If that’s not enough you’ll get the following error:
 
+编解码器[限制](web-reactive.xml#webflux-codecs-limits)了内存缓冲区的大小来避免一些内存问题。
+
     org.springframework.core.io.buffer.DataBufferLimitException: Exceeded limit on max bytes to buffer
 
 To change the limit for default codecs, use the following:
+
+可以通过一下方式来修改限制：
 
 **Java.**
 
@@ -111,6 +145,8 @@ val webClient = WebClient.builder()
 ## Reactor Netty
 
 To customize Reactor Netty settings, provide a pre-configured `HttpClient`:
+
+如果想定制Reactor Netty的配置，提供一个预定义的`HttpClient`：
 
 **Java.**
 
@@ -136,7 +172,11 @@ val webClient = WebClient.builder()
 
 By default, `HttpClient` participates in the global Reactor Netty resources held in `reactor.netty.http.HttpResources`, including event loop threads and a connection pool. This is the recommended mode, since fixed, shared resources are preferred for event loop concurrency. In this mode global resources remain active until the process exits.
 
+默认情况下，`HttpClient`使用存储在`reactor.netty.http.HttpResources`中的全局Reactor Netty资源，包括事件循环和连接池。对于事件循环并发模式来说这是推荐的，优化的使用方法。在这种使用方法下，全局资源在进程结束前一直保持活跃状态。
+
 If the server is timed with the process, there is typically no need for an explicit shutdown. However, if the server can start or stop in-process (for example, a Spring MVC application deployed as a WAR), you can declare a Spring-managed bean of type `ReactorResourceFactory` with `globalResources=true` (the default) to ensure that the Reactor Netty global resources are shut down when the Spring `ApplicationContext` is closed, as the following example shows:
+
+如果服务器与进程的生命周期相同，通常没有必要显示的去关闭。但是，如果服务器可以在进程内启动或者停止（例如，以WAR方式部署的Spring MVC应用），可以定义一个Spring管理的`ReactorResourceFactory`类型（默认`globalResources=true`）的bean来保证Reactor Netty全局资源在Spring `ApplicationContext`关闭的时候也随之关闭，如下所示：
 
 **Java.**
 
@@ -155,6 +195,8 @@ fun reactorResourceFactory() = ReactorResourceFactory()
 ```
 
 You can also choose not to participate in the global Reactor Netty resources. However, in this mode, the burden is on you to ensure that all Reactor Netty client and server instances use shared resources, as the following example shows:
+
+你也可以选择不使用Reactor Netty全局资源。但是在这种情况下，需要你自行确保所有的Reactor Netty客户端和服务端都是用同样的共享资源，如下：
 
 **Java.**
 
@@ -182,9 +224,15 @@ public WebClient webClient() {
 
   - Create resources independent of global ones.
 
+  - 创建独立于全局的资源。
+
   - Use the `ReactorClientHttpConnector` constructor with resource factory.
 
+  - 使用`ReactorClientHttpConnector` 带有资源工厂参数的构造函数。
+
   - Plug the connector into the `WebClient.Builder`.
+
+  - 把connector注入到`WebClient.Builder`。
 
 **Kotlin.**
 
@@ -209,13 +257,21 @@ fun webClient(): WebClient {
 
   - Create resources independent of global ones.
 
+  - 创建独立于全局的资源。
+
   - Use the `ReactorClientHttpConnector` constructor with resource factory.
 
+  - 使用`ReactorClientHttpConnector` 带有资源工厂参数的构造函数。
+
   - Plug the connector into the `WebClient.Builder`.
+
+  - 把connector注入到`WebClient.Builder`。
 
 ### Timeouts
 
 To configure a connection timeout:
+
+配置连接超时时间：
 
 **Java.**
 
@@ -244,6 +300,8 @@ val webClient = WebClient.builder()
 ```
 
 To configure a read or write timeout:
+
+配置读写超时时间：
 
 **Java.**
 
@@ -276,6 +334,8 @@ val httpClient = HttpClient.create()
 
 To configure a response timeout for all requests:
 
+为所有请求配置响应超时时间：
+
 **Java.**
 
 ``` java
@@ -295,6 +355,8 @@ val httpClient = HttpClient.create()
 ```
 
 To configure a response timeout for a specific request:
+
+为单个请求配置响应超时时间：
 
 **Java.**
 
@@ -326,6 +388,8 @@ WebClient.create().get()
 
 The following example shows how to customize Jetty `HttpClient` settings:
 
+以下示例展示了如何定制Jetty `HttpClient` 的配置：
+
 **Java.**
 
 ``` java
@@ -350,7 +414,11 @@ val webClient = WebClient.builder()
 
 By default, `HttpClient` creates its own resources (`Executor`, `ByteBufferPool`, `Scheduler`), which remain active until the process exits or `stop()` is called.
 
+默认情况下， `HttpClient` 创建它自己的资源 (`Executor`, `ByteBufferPool`, `Scheduler`)，直到进程推出或者 `stop()` 方法被调用才会销毁。
+
 You can share resources between multiple instances of the Jetty client (and server) and ensure that the resources are shut down when the Spring `ApplicationContext` is closed by declaring a Spring-managed bean of type `JettyResourceFactory`, as the following example shows:
+
+在多个 Jetty client (and server) 之间可以共享资源，并且确保在Spring `ApplicationContext`关闭的时候被关闭，可以通过定义一个受Spring管理的类型 `JettyResourceFactory`的Bean来实现，例如：
 
 **Java.**
 
@@ -403,6 +471,8 @@ fun webClient(): WebClient {
 
 The following example shows how to customize Apache HttpComponents `HttpClient` settings:
 
+下面的例子展示了如何定制化Apache HttpComponents `HttpClient` 的配置：
+
 **Java.**
 
 ``` java
@@ -428,6 +498,8 @@ val webClient = WebClient.builder().clientConnector(connector).build()
 
 The `retrieve()` method can be used to declare how to extract the response. For example:
 
+ `retrieve()` 方法可以用来声明如何获取响应。例如：
+
 **Java.**
 
 ``` java
@@ -451,6 +523,8 @@ val result = client.get()
 ```
 
 Or to get only the body:
+
+或者仅仅获取响应体：
 
 **Java.**
 
@@ -476,6 +550,8 @@ val result = client.get()
 
 To get a stream of decoded objects:
 
+获取一个已经解码的对象流：
+
 **Java.**
 
 ``` java
@@ -495,6 +571,9 @@ val result = client.get()
 ```
 
 By default, 4xx or 5xx responses result in an `WebClientResponseException`, including sub-classes for specific HTTP status codes. To customize the handling of error responses, use `onStatus` handlers as follows:
+
+默认情况下，4xx和5xx响应导致 `WebClientResponseException`及其子类。可以使用 `onStatus` 对异常响应的处理逻辑进行自定义，例如：
+
 
 **Java.**
 
@@ -521,6 +600,8 @@ val result = client.get()
 # Exchange
 
 The `exchangeToMono()` and `exchangeToFlux()` methods (or `awaitExchange { }` and `exchangeToFlow { }` in Kotlin) are useful for more advanced cases that require more control, such as to decode the response differently depending on the response status:
+
+方法 `exchangeToMono()` 和 `exchangeToFlux()` 用来处理需要更多控制的用例，例如根据不同的响应状态来进行解码响应体：
 
 **Java.**
 
@@ -564,9 +645,15 @@ val entity = client.get()
 
 When using the above, after the returned `Mono` or `Flux` completes, the response body is checked and if not consumed it is released to prevent memory and connection leaks. Therefore the response cannot be decoded further downstream. It is up to the provided function to declare how to decode the response if needed.
 
+当按照上述方式进行响应处理时，在返回`Mono` 或者 `Flux` 完成后，响应体会被检查，如果没有被消耗掉会自动进行释放以防止内存和连接泄露。因此响应不能再被下游进行解码处理。如果需要的话，必须由提供的函数进行响应体的解码操作。
+
 # Request Body
 
+# 请求体
+
 The request body can be encoded from any asynchronous type handled by `ReactiveAdapterRegistry`, like `Mono` or Kotlin Coroutines `Deferred` as the following example shows:
+
+请求体可以来自任何可以被 `ReactiveAdapterRegistry`处理的异步类型，例如 `Mono` 或者Kotlin协程 `Deferred` 类型，如下示例：
 
 **Java.**
 
@@ -596,6 +683,8 @@ client.post()
 
 You can also have a stream of objects be encoded, as the following example shows:
 
+你也可以使用一个对象流，如下所示：
+
 **Java.**
 
 ``` java
@@ -623,6 +712,8 @@ client.post()
 ```
 
 Alternatively, if you have the actual value, you can use the `bodyValue` shortcut method, as the following example shows:
+
+如果你也对象实际的值，也可以直接使用 `bodyValue` 方法，如下所示：
 
 **Java.**
 
@@ -652,7 +743,11 @@ client.post()
 
 ## Form Data
 
+## 表单数据
+
 To send form data, you can provide a `MultiValueMap<String, String>` as the body. Note that the content is automatically set to `application/x-www-form-urlencoded` by the `FormHttpMessageWriter`. The following example shows how to use `MultiValueMap<String, String>`:
+
+为了发送表单数据，你可以提供一个 `MultiValueMap<String, String>` 对象作为请求体。注意内容类型会被 `FormHttpMessageWriter`自动设置为 `application/x-www-form-urlencoded` 。以下示例展示了如何使用 `MultiValueMap<String, String>`：
 
 **Java.**
 
@@ -679,6 +774,8 @@ client.post()
 ```
 
 You can also supply form data in-line by using `BodyInserters`, as the following example shows:
+
+你也可以使用 `BodyInserters`直接提供键值对，如下示例：
 
 **Java.**
 
