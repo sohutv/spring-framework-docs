@@ -805,6 +805,9 @@ client.post()
 
 To send multipart data, you need to provide a `MultiValueMap<String, ?>` whose values are either `Object` instances that represent part content or `HttpEntity` instances that represent the content and headers for a part. `MultipartBodyBuilder` provides a convenient API to prepare a multipart request. The following example shows how to create a `MultiValueMap<String, ?>`:
 
+要发送multipart数据，你需要提供一个 `MultiValueMap<String, ?>`，其值是表示part内容的 `Object` 实例或表示part内容和首部的 `HttpEntity` 实例。 `MultipartBodyBuilder` 提供了一个方便的 API 来准备multipart请求。 下面的例子展示了如何创建一个 `MultiValueMap<String, ?>`：
+
+
 **Java.**
 
 ``` java
@@ -832,7 +835,11 @@ val parts = builder.build()
 
 In most cases, you do not have to specify the `Content-Type` for each part. The content type is determined automatically based on the `HttpMessageWriter` chosen to serialize it or, in the case of a `Resource`, based on the file extension. If necessary, you can explicitly provide the `MediaType` to use for each part through one of the overloaded builder `part` methods.
 
+在大多数情况下，您不必为每个part指定 `Content-Type`。 内容类型是根据为序列化选择的 `HttpMessageWriter` 自动确定的，或者在 `Resource` 的情况下，根据文件扩展名自动确定。 如有必要，可以显示的通过重载的构建器 `part` 方法提供用于每个part的 `MediaType` 。
+
 Once a `MultiValueMap` is prepared, the easiest way to pass it to the `WebClient` is through the `body` method, as the following example shows:
+
+准备好“MultiValueMap”后，将其传递给 `WebClient` 的最简单方法是通过 `body` 方法，如下例所示：
 
 **Java.**
 
@@ -862,6 +869,10 @@ If the `MultiValueMap` contains at least one non-`String` value, which could als
 
 As an alternative to `MultipartBodyBuilder`, you can also provide multipart content, inline-style, through the built-in `BodyInserters`, as the following example shows:
 
+如果 `MultiValueMap` 包含至少一个非 `String` 值，该值也可以表示常规表单数据（即 `application/x-www-form-urlencoded`），则不需要设置 `Content-Type` 为 `multipart/form-data`。 使用 `MultipartBodyBuilder` 时总是如此，它确保使用了一个 `HttpEntity` 包装器。
+
+作为 `MultipartBodyBuilder` 的替代方案，您还可以通过内置的 `BodyInserters` 提供内联样式的multipart内容，如下例所示：
+
 **Java.**
 
 ``` java
@@ -888,7 +899,11 @@ client.post()
 
 # Filters
 
+# 过滤器
+
 You can register a client filter (`ExchangeFilterFunction`) through the `WebClient.Builder` in order to intercept and modify requests, as the following example shows:
+
+可以通过 `WebClient.Builder` 注册一个客户端过滤器 (`ExchangeFilterFunction`) 来拦截和修改请求，如下例所示：
 
 **Java.**
 
@@ -922,6 +937,9 @@ val client = WebClient.builder()
 
 This can be used for cross-cutting concerns, such as authentication. The following example uses a filter for basic authentication through a static factory method:
 
+这可用于横切关注点，例如鉴权。 以下示例通过静态工厂方法使用过滤器进行基本身份验证：
+
+
 **Java.**
 
 ``` java
@@ -944,6 +962,8 @@ val client = WebClient.builder()
 
 Filters can be added or removed by mutating an existing `WebClient` instance, resulting in a new `WebClient` instance that does not affect the original one. For example:
 
+可以通过改变现有的 `WebClient` 实例来添加或删除过滤器，从而产生一个不影响原始实例的新 `WebClient` 实例。 例如：
+
 **Java.**
 
 ``` java
@@ -965,6 +985,8 @@ val client = webClient.mutate()
 ```
 
 `WebClient` is a thin facade around the chain of filters followed by an `ExchangeFunction`. It provides a workflow to make requests, to encode to and from higher level objects, and it helps to ensure that response content is always consumed. When filters handle the response in some way, extra care must be taken to always consume its content or to otherwise propagate it downstream to the `WebClient` which will ensure the same. Below is a filter that handles the `UNAUTHORIZED` status code but ensures that any response content, whether expected or not, is released:
+
+`WebClient` 是一个围绕过滤器链的薄门面，后跟一个 `ExchangeFunction`。 它提供了一个工作流来发出请求、编解码更高抽象级别的对象，并确保响应内容被消费掉。 当过滤器以某种方式处理响应时，必须格外小心始终确保其内容被消费掉或者将其向下游传递到 `WebClient` 。 下面是一个处理 `UNAUTHORIZED` 状态代码的过滤器，但确保任何响应内容，无论是否是预期的，都被释放：
 
 **Java.**
 
@@ -1008,7 +1030,11 @@ fun renewTokenFilter(): ExchangeFilterFunction? {
 
 # Attributes
 
+# 属性
+
 You can add attributes to a request. This is convenient if you want to pass information through the filter chain and influence the behavior of filters for a given request. For example:
+
+可以向请求添加属性。 如果你想通过过滤器链传递信息并影响给定请求的过滤器行为，这很方便。 例如：
 
 **Java.**
 
@@ -1046,11 +1072,17 @@ val client = WebClient.builder()
 
 Note that you can configure a `defaultRequest` callback globally at the `WebClient.Builder` level which lets you insert attributes into all requests, which could be used for example in a Spring MVC application to populate request attributes based on `ThreadLocal` data.
 
+请注意，你可以在 `WebClient.Builder` 级别全局配置 `defaultRequest` 回调，它允许您将属性插入到所有请求中，例如可以在 Spring MVC 应用程序中使用以根据 `ThreadLocal` 数据填充请求属性。
+
 # Context
 
 [section\_title](#webflux-client-attributes) provide a convenient way to pass information to the filter chain but they only influence the current request. If you want to pass information that propagates to additional requests that are nested, e.g. via `flatMap`, or executed after, e.g. via `concatMap`, then you’ll need to use the Reactor `Context`.
 
 The Reactor `Context` needs to be populated at the end of a reactive chain in order to apply to all operations. For example:
+
+[section\_title](#webflux-client-attributes) 提供了一种向过滤器链传递信息的便捷方式，但它们只影响当前请求。 如果您想传递传播到其他嵌套请求的信息，例如 通过`flatMap`，或之后执行，例如 通过`concatMap`，那么你需要使用Reactor`Context`。
+
+Reactor `Context` 需要填充在反应链的末尾，以便应用于所有操作。 例如：
 
 **Java.**
 
@@ -1074,7 +1106,11 @@ client.get().uri("https://example.org/")
 
 # Synchronous Use
 
+# 同步使用
+
 `WebClient` can be used in synchronous style by blocking at the end for the result:
+
+`WebClient` 可以通过在结尾处阻塞在同步风格的代码中使用：
 
 **Java.**
 
@@ -1105,6 +1141,8 @@ val persons = runBlocking {
 ```
 
 However if multiple calls need to be made, it’s more efficient to avoid blocking on each response individually, and instead wait for the combined result:
+
+但是，如果需要进行多次调用，避免单独阻塞每个响应，而是等待组合结果更有效：
 
 **Java.**
 
@@ -1144,10 +1182,20 @@ val data = runBlocking {
 
 The above is merely one example. There are lots of other patterns and operators for putting together a reactive pipeline that makes many remote calls, potentially some nested, inter-dependent, without ever blocking until the end.
 
+以上只是一个例子。 有许多其他模式和操作符可以组合一个反应式管道，这些管道可以进行许多远程调用，可能是一些嵌套的、相互依赖的，直到最后都不会阻塞。
+
 > **Note**
 > 
 > With `Flux` or `Mono`, you should never have to block in a Spring MVC or Spring WebFlux controller. Simply return the resulting reactive type from the controller method. The same principle apply to Kotlin Coroutines and Spring WebFlux, just use suspending function or return `Flow` in your controller method .
 
+> **注意**
+>
+> 使用 `Flux` 或 `Mono`，你永远不必在 Spring MVC 或 Spring WebFlux 控制器中阻塞。 简单地从控制器方法返回结果反应类型。 相同的原则适用于 Kotlin Coroutines 和 Spring WebFlux，只需在控制器方法中使用挂起函数或返回 `Flow`。 
+
 # Testing
 
 To test code that uses the `WebClient`, you can use a mock web server, such as the [OkHttp MockWebServer](https://github.com/square/okhttp#mockwebserver). To see an example of its use, check out {spring-framework-main-code}/spring-webflux/src/test/java/org/springframework/web/reactive/function/client/WebClientIntegrationTests.java\[`WebClientIntegrationTests`\] in the Spring Framework test suite or the [`static-server`](https://github.com/square/okhttp/tree/master/samples/static-server) sample in the OkHttp repository.
+
+# 测试
+
+要测试使用 `WebClient` 的代码，您可以使用模拟 Web 服务器，例如 [OkHttp MockWebServer](https://github.com/square/okhttp#mockwebserver)。 要查看其使用示例，请查看 {spring-framework-main-code}/spring-webflux/src/test/java/org/springframework/web/reactive/function/client/WebClientIntegrationTests.java\[`WebClientIntegrationTests` \] 在 Spring Framework 测试套件或 OkHttp 存储库中的 [`static-server`](https://github.com/square/okhttp/tree/master/samples/static-server) 示例中。 
