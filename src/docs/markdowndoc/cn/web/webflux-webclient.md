@@ -1076,11 +1076,11 @@ Note that you can configure a `defaultRequest` callback globally at the `WebClie
 
 # Context
 
-[section\_title](#webflux-client-attributes) provide a convenient way to pass information to the filter chain but they only influence the current request. If you want to pass information that propagates to additional requests that are nested, e.g. via `flatMap`, or executed after, e.g. via `concatMap`, then you’ll need to use the Reactor `Context`.
+[Attributes](#webflux-client-attributes) provide a convenient way to pass information to the filter chain but they only influence the current request. If you want to pass information that propagates to additional requests that are nested, e.g. via `flatMap`, or executed after, e.g. via `concatMap`, then you’ll need to use the Reactor `Context`.
 
 The Reactor `Context` needs to be populated at the end of a reactive chain in order to apply to all operations. For example:
 
-[section\_title](#webflux-client-attributes) 提供了一种向过滤器链传递信息的便捷方式，但它们只影响当前请求。 如果您想传递传播到其他嵌套请求的信息，例如 通过`flatMap`，或之后执行，例如 通过`concatMap`，那么你需要使用Reactor`Context`。
+[Attributes](#webflux-client-attributes) 提供了一种向过滤器链传递信息的便捷方式，但它们只影响当前请求。 如果您想传递传播到其他嵌套请求的信息，例如 通过`flatMap`，或之后执行，例如 通过`concatMap`，那么你需要使用Reactor`Context`。
 
 Reactor `Context` 需要填充在反应链的末尾，以便应用于所有操作。 例如：
 
