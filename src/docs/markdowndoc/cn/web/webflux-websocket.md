@@ -358,9 +358,15 @@ class ExampleHandler implements WebSocketHandler {
 
   - Handle the inbound message stream.
 
+  - 处理入站消息流。
+
   - Create the outbound message, producing a combined flow.
 
+  - 创建出站消息，产生一个组合的流。
+
   - Return a `Mono<Void>` that does not complete while we continue to receive.
+
+  - 返回一个`Mono<Void>`直到我们停止接收消息。
 
 **Kotlin.**
 
@@ -385,11 +391,19 @@ class ExampleHandler : WebSocketHandler {
 
   - Handle the inbound message stream.
 
+  - 处理入站消息流。
+
   - Create the outbound message, producing a combined flow.
+
+  - 创建出站消息，产生一个组合的流。
 
   - Return a `Mono<Void>` that does not complete while we continue to receive.
 
+  - 返回一个`Mono<Void>`直到我们停止接收消息。
+
 Inbound and outbound streams can be independent and be joined only for completion, as the following example shows:
+
+入站和出站流可以是独立的，并且仅在完成时进行join，如以下示例所示：
 
 **Java.**
 
@@ -418,9 +432,15 @@ class ExampleHandler implements WebSocketHandler {
 
   - Handle inbound message stream.
 
+  - 处理入站消息流。
+
   - Send outgoing messages.
 
+  - 发送出站消息。
+
   - Join the streams and return a `Mono<Void>` that completes when either stream ends.
+
+  - 将两个流进行join操作并返回一个 `Mono<Void>`，在任一流结束时完成。
 
 **Kotlin.**
 
@@ -448,15 +468,25 @@ class ExampleHandler : WebSocketHandler {
 
   - Handle inbound message stream.
 
+  - 处理入站消息流。
+
   - Send outgoing messages.
 
+  - 发送出站消息。
+
   - Join the streams and return a `Mono<Void>` that completes when either stream ends.
+
+  - 将两个流进行join操作并返回一个 `Mono<Void>`，在任一流结束时完成。
 
 ## `DataBuffer`
 
 `DataBuffer` is the representation for a byte buffer in WebFlux. The Spring Core part of the reference has more on that in the section on [Data Buffers and Codecs](core.xml#databuffers). The key point to understand is that on some servers like Netty, byte buffers are pooled and reference counted, and must be released when consumed to avoid memory leaks.
 
 When running on Netty, applications must use `DataBufferUtils.retain(dataBuffer)` if they wish to hold on input data buffers in order to ensure they are not released, and subsequently use `DataBufferUtils.release(dataBuffer)` when the buffers are consumed.
+
+`DataBuffer` 是 WebFlux 中字节缓冲区的表示。 参考指南的 Spring Core 部分 [Data Buffers and Codecs](core.xml#databuffers) 有更多相关内容。 需要理解的关键点是，在一些像 Netty 这样的服务器上，字节缓冲区被池化和引用计数，并且必须在消耗时释放以避免内存泄漏。
+
+在 Netty 上运行时，如果应用程序希望保留输入数据缓冲区以确保它们不被释放，则必须使用 `DataBufferUtils.retain(dataBuffer)` ，然后在消耗缓冲区时使用 `DataBufferUtils.release(dataBuffer)` 。
 
 ## Handshake
 
@@ -466,11 +496,17 @@ When running on Netty, applications must use `DataBufferUtils.retain(dataBuffer)
 
 `HandshakeWebSocketService` exposes a `sessionAttributePredicate` property that allows setting a `Predicate<String>` to extract attributes from the `WebSession` and insert them into the attributes of the `WebSocketSession`.
 
+`WebSocketHandlerAdapter` 委托给一个 `WebSocketService`。 默认情况下，这是一个 `HandshakeWebSocketService` 的实例，它对 WebSocket 请求执行基本检查，然后执行 `RequestUpgradeStrategy`。 目前， Reactor Netty、Tomcat、Jetty 和 Undertow 内置支持这些功能。
+
+`HandshakeWebSocketService` 暴露了一个 `sessionAttributePredicate` 属性，该属性允许设置一个 `Predicate<String>` 以从 `WebSession` 中提取属性并将它们插入到 `WebSocketSession` 的属性中。
+
 ## Server Configation
 
 [Same as in the Servlet stack](web.xml#websocket-server-runtime-configuration)
 
 The `RequestUpgradeStrategy` for each server exposes configuration specific to the underlying WebSocket server engine. When using the WebFlux Java config you can customize such properties as shown in the corresponding section of the [WebFlux Config](web-reactive.xml#webflux-config-websocket-service), or otherwise if not using the WebFlux config, use the below:
+
+每个服务器的 `RequestUpgradeStrategy` 暴露了特定于底层 WebSocket 服务引擎的配置。 使用 WebFlux Java 配置时，您可以自定义某些属性，如 [WebFlux 配置](web-reactive.xml#webflux-config-websocket-service) 的相应部分所展示的，否则如果不使用 WebFlux 配置，可以使用以下代码的方式来配置：
 
 **Java.**
 
@@ -514,21 +550,33 @@ class WebConfig {
 
 Check the upgrade strategy for your server to see what options are available. Currently, only Tomcat and Jetty expose such options.
 
+检查你的服务器的升级策略以查看可用选项。 目前，只有 Tomcat 和 Jetty 暴露了这些选项。
+
 ## CORS
 
 [Same as in the Servlet stack](web.xml#websocket-server-allowed-origins)
 
 The easiest way to configure CORS and restrict access to a WebSocket endpoint is to have your `WebSocketHandler` implement `CorsConfigurationSource` and return a `CorsConfiguration` with allowed origins, headers, and other details. If you cannot do that, you can also set the `corsConfigurations` property on the `SimpleUrlHandler` to specify CORS settings by URL pattern. If both are specified, they are combined by using the `combine` method on `CorsConfiguration`.
 
+配置 CORS 并限制对 WebSocket 端点的访问的最简单方法是让你的 `WebSocketHandler` 实现 `CorsConfigurationSource` 并返回一个包含允许的来源、首部和其他详细信息的 `CorsConfiguration` 。 如果你不能这样做，你还可以在 `SimpleUrlHandler` 上设置 `corsConfigurations` 属性以通过 URL 模式指定 CORS 设置。 如果两者都被指定，它们将通过使用 `CorsConfiguration` 上的 `combine` 方法进行组合。
+
 ## Client
 
 Spring WebFlux provides a `WebSocketClient` abstraction with implementations for Reactor Netty, Tomcat, Jetty, Undertow, and standard Java (that is, JSR-356).
+
+Spring WebFlux 提供了一个 `WebSocketClient` 抽象，其中包含 Reactor Netty、Tomcat、Jetty、Undertow 和标准 Java（即 JSR-356）的实现。
 
 > **Note**
 > 
 > The Tomcat client is effectively an extension of the standard Java one with some extra functionality in the `WebSocketSession` handling to take advantage of the Tomcat-specific API to suspend receiving messages for back pressure.
 
 To start a WebSocket session, you can create an instance of the client and use its `execute` methods:
+
+> **注意**
+>
+> Tomcat 客户端实际上是标准 Java 客户端的扩展，在 `WebSocketSession` 处理时添加了一些额外的功能，以利用 Tomcat 特定的 API 来暂停接收消息以实现回压机制。
+
+要启动 WebSocket 会话，您可以创建客户端的实例并使用其 `execute` 方法：
 
 **Java.**
 
@@ -556,3 +604,5 @@ val client = ReactorNettyWebSocketClient()
 ```
 
 Some clients, such as Jetty, implement `Lifecycle` and need to be stopped and started before you can use them. All clients have constructor options related to configuration of the underlying WebSocket client.
+
+一些客户端，比如 Jetty，实现了 `Lifecycle`接口，需要先停止再启动才能使用。 所有客户端都有与底层 WebSocket 客户端配置相关的构造函数选项。
