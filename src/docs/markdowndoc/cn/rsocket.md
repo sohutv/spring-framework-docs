@@ -148,13 +148,13 @@ The `spring-messaging` module contains the following:
 
 `spring-messaging`模块包括如下内容：
 
-  - [section\_title](#rsocket-requester) — fluent API to make requests through an `io.rsocket.RSocket` with data and metadata encoding/decoding.
+  - [RSocketRequester](#rsocket-requester) — fluent API to make requests through an `io.rsocket.RSocket` with data and metadata encoding/decoding.
 
-  - [section\_title](#rsocket-requester) - 流式API，通过带有数据和元数据编码/解码的 `io.rsocket.RSocket` 发出请求。
+  - [RSocketRequester](#rsocket-requester) - 流式API，通过带有数据和元数据编码/解码的 `io.rsocket.RSocket` 发出请求。
 
-  - [section\_title](#rsocket-annot-responders) — `@MessageMapping` annotated handler methods for responding.
+  - [Annotated Responders](#rsocket-annot-responders) — `@MessageMapping` annotated handler methods for responding.
 
-  - [section\_title](#rsocket-annot-responders) - `@MessageMapping` 注解处理方法用于响应
+  - [Annotated Responders](#rsocket-annot-responders) - `@MessageMapping` 注解处理方法用于响应
 
 The `spring-web` module contains `Encoder` and `Decoder` implementations such as Jackson CBOR/JSON, and Protobuf that RSocket applications will likely need. It also contains the `PathPatternParser` that can be plugged in for efficient route matching.
 
@@ -244,11 +244,11 @@ The above does not connect immediately. When requests are made, a shared connect
 
 For data, the default mime type is derived from the first configured `Decoder`. For metadata, the default mime type is [composite metadata](https://github.com/rsocket/rsocket/blob/master/Extensions/CompositeMetadata.md) which allows multiple metadata value and mime type pairs per request. Typically both don’t need to be changed.
 
-Data and metadata in the `SETUP` frame is optional. On the server side, [section\_title](#rsocket-annot-connectmapping) methods can be used to handle the start of a connection and the content of the `SETUP` frame. Metadata may be used for connection level security.
+Data and metadata in the `SETUP` frame is optional. On the server side, [@ConnectMapping](#rsocket-annot-connectmapping) methods can be used to handle the start of a connection and the content of the `SETUP` frame. Metadata may be used for connection level security.
 
 对于数据，默认 mime 类型源自第一个配置的`解码器`。 对于元数据，默认的 mime 类型是 [composite metadata](https://github.com/rsocket/rsocket/blob/master/Extensions/CompositeMetadata.md)，它允许每个请求有多个元数据值和 mime 类型对。 通常两者都不需要更改。
 
-`SETUP` 帧中的数据和元数据是可选的。 在服务器端，可以使用 [section\_title](#rsocket-annot-connectmapping) 方法来处理连接的开始和 `SETUP` 帧的内容。 元数据可用于连接级别的安全。
+`SETUP` 帧中的数据和元数据是可选的。 在服务器端，可以使用 [@ConnectMapping](#rsocket-annot-connectmapping) 方法来处理连接的开始和 `SETUP` 帧的内容。 元数据可用于连接级别的安全。
 
 ### Strategies
 
@@ -383,11 +383,11 @@ val requester = RSocketRequester.builder()
 
 For the above you may also need to use `setHandlerPredicate` in `RSocketMessageHandler` to switch to a different strategy for detecting client responders, e.g. based on a custom annotation such as `@RSocketClientResponder` vs the default `@Controller`. This is necessary in scenarios with client and server, or multiple clients in the same application.
 
-See also [section\_title](#rsocket-annot-responders), for more on the programming model.
+See also [Annotated Responders](#rsocket-annot-responders), for more on the programming model.
 
 对于上述情况，你可能还需要在 `RSocketMessageHandler` 中使用 `setHandlerPredicate` 来切换到检测客户端响应者的不同策略，例如基于自定义注解，像`@RSocketClientResponder` 与默认的 `@Controller`。 这在客户端和服务器，或同一应用程序中的多个客户端的场景中是必要的。
 
-有关编程模型的更多信息，另请参见 [section\_title](#rsocket-annot-responders)。
+有关编程模型的更多信息，另请参见 [Annotated Responders](#rsocket-annot-responders)。
 
 ### Advanced
 
@@ -419,11 +419,11 @@ val requester = RSocketRequester.builder()
 
 To make requests from a server to connected clients is a matter of obtaining the requester for the connected client from the server.
 
-In [section\_title](#rsocket-annot-responders), `@ConnectMapping` and `@MessageMapping` methods support an `RSocketRequester` argument. Use it to access the requester for the connection. Keep in mind that `@ConnectMapping` methods are essentially handlers of the `SETUP` frame which must be handled before requests can begin. Therefore, requests at the very start must be decoupled from handling. For example:
+In [Annotated Responders](#rsocket-annot-responders), `@ConnectMapping` and `@MessageMapping` methods support an `RSocketRequester` argument. Use it to access the requester for the connection. Keep in mind that `@ConnectMapping` methods are essentially handlers of the `SETUP` frame which must be handled before requests can begin. Therefore, requests at the very start must be decoupled from handling. For example:
 
 从服务器向连接的客户端发出请求需要获取连接客户端的请求者。
 
-在 [section\_title](#rsocket-annot-responders) 中，`@ConnectMapping` 和 `@MessageMapping` 方法支持 `RSocketRequester` 参数。 使用它来访问连接的请求者。 请记住，`@ConnectMapping` 方法本质上是 `SETUP` 帧的处理程序，必须在请求开始之前处理。 因此，一开始的请求必须与处理分离。 例如：
+在 [Annotated Responders](#rsocket-annot-responders) 中，`@ConnectMapping` 和 `@MessageMapping` 方法支持 `RSocketRequester` 参数。 使用它来访问连接的请求者。 请记住，`@ConnectMapping` 方法本质上是 `SETUP` 帧的处理程序，必须在请求开始之前处理。 因此，一开始的请求必须与处理分离。 例如：
 
 **Java.**
 
@@ -663,7 +663,7 @@ val server = RSocketServer.create(handler.responder())
         .awaitSingle()
 ```
 
-`RSocketMessageHandler` supports [composite](https://github.com/rsocket/rsocket/blob/master/Extensions/CompositeMetadata.md) and [routing](https://github.com/rsocket/rsocket/blob/master/Extensions/Routing.md) metadata by default. You can set its [section\_title](#rsocket-metadata-extractor) if you need to switch to a different mime type or register additional metadata mime types.
+`RSocketMessageHandler` supports [composite](https://github.com/rsocket/rsocket/blob/master/Extensions/CompositeMetadata.md) and [routing](https://github.com/rsocket/rsocket/blob/master/Extensions/Routing.md) metadata by default. You can set its [MetadataExtractor](#rsocket-metadata-extractor) if you need to switch to a different mime type or register additional metadata mime types.
 
 You’ll need to set the `Encoder` and `Decoder` instances required for metadata and data formats to support. You’ll likely need the `spring-web` module for codec implementations.
 
@@ -671,7 +671,7 @@ By default `SimpleRouteMatcher` is used for matching routes via `AntPathMatcher`
 
 `RSocketMessageHandler` can be configured via `RSocketStrategies` which may be useful if you need to share configuration between a client and a server in the same process:
 
-`RSocketMessageHandler` 默认支持 [composite](https://github.com/rsocket/rsocket/blob/master/Extensions/CompositeMetadata.md) 和 [routing](https://github.com/rsocket/rsocket/blob/master/Extensions/Routing.md) 元数据。如果你需要使用不同的 mime 类型或注册其他元数据 mime 类型，你可以设置其 [section\_title](#rsocket-metadata-extractor)。
+`RSocketMessageHandler` 默认支持 [composite](https://github.com/rsocket/rsocket/blob/master/Extensions/CompositeMetadata.md) 和 [routing](https://github.com/rsocket/rsocket/blob/master/Extensions/Routing.md) 元数据。如果你需要使用不同的 mime 类型或注册其他元数据 mime 类型，你可以设置其 [MetadataExtractor](#rsocket-metadata-extractor)。
 
 你需要设置支持元数据和数据格式所需的 `Encoder` 和 `Decoder` 实例。你可能需要用于编解码器实现的 `spring-web` 模块。
 
@@ -725,9 +725,9 @@ class ServerConfig {
 
 ## Client Responders
 
-Annotated responders on the client side need to be configured in the `RSocketRequester.Builder`. For details, see [section\_title](#rsocket-requester-client-responder).
+Annotated responders on the client side need to be configured in the `RSocketRequester.Builder`. For details, see [Client Responders](#rsocket-requester-client-responder).
 
-客户端的带注解的响应者需要在 `RSocketRequester.Builder` 中进行配置。 详情请参见[section\_title](#rsocket-requester-client-responder)。
+客户端的带注解的响应者需要在 `RSocketRequester.Builder` 中进行配置。 详情请参见[Client Responders](#rsocket-requester-client-responder)。
 
 
 ## @MessageMapping
