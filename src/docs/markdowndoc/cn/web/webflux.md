@@ -1,4 +1,4 @@
-The original web framework included in the Spring Framework, Spring Web MVC, was purpose-built for the Servlet API and Servlet containers. The reactive-stack web framework, Spring WebFlux, was added later in version 5.0. It is fully non-blocking, supports [Reactive Streams](https://www.reactive-streams.org/) back pressure, and runs on such servers as Netty, Undertow, and Servlet 3.1+ containers.
+﻿The original web framework included in the Spring Framework, Spring Web MVC, was purpose-built for the Servlet API and Servlet containers. The reactive-stack web framework, Spring WebFlux, was added later in version 5.0. It is fully non-blocking, supports [Reactive Streams](https://www.reactive-streams.org/) back pressure, and runs on such servers as Netty, Undertow, and Servlet 3.1+ containers.
 
 Both web frameworks mirror the names of their source modules ({spring-framework-main-code}/spring-webmvc\[spring-webmvc\] and {spring-framework-main-code}/spring-webflux\[spring-webflux\]) and co-exist side by side in the Spring Framework. Each module is optional. Applications can use one or the other module or, in some cases, both — for example, Spring MVC controllers with the reactive `WebClient`.
 
@@ -3542,9 +3542,7 @@ Besides using the `filter` method on the router function builder, it is possible
 
 # URI Links
 
-[Web MVC](web.xml#mvc-uri-building)
-
-This section describes various options available in the Spring Framework to prepare URIs.
+[Web MVC](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-uri-building)
 
 本节介绍 Spring Framework 中可用于准备 URI 的各种选项。
 
@@ -3552,9 +3550,7 @@ This section describes various options available in the Spring Framework to prep
 
 Spring MVC and Spring WebFlux
 
-`UriComponentsBuilder` helps to build URI’s from URI templates with variables, as the following example shows:
-
-`UriComponentsBuilder` 有助于从带有变量的 URI 模板构建 URI，如以下示例所示：
+`UriComponentsBuilder` 可以帮助从带有变量的 URI 模板构建 URI，如以下示例所示：
 
 **Java.**
 
@@ -3567,17 +3563,6 @@ UriComponents uriComponents = UriComponentsBuilder
 
 URI uri = uriComponents.expand("Westin", "123").toUri();  
 ```
-
-  - Static factory method with a URI template.
-
-  - Add or replace URI components.
-
-  - Request to have the URI template and URI variables encoded.
-
-  - Build a `UriComponents`.
-
-  - Expand variables and obtain the `URI`.
-
   - 带有 URI 模板的静态工厂方法。
 
   - 添加或替换 URI 组件。
@@ -3599,17 +3584,6 @@ val uriComponents = UriComponentsBuilder
 
 val uri = uriComponents.expand("Westin", "123").toUri()  
 ```
-
-  - Static factory method with a URI template.
-
-  - Add or replace URI components.
-
-  - Request to have the URI template and URI variables encoded.
-
-  - Build a `UriComponents`.
-
-  - Expand variables and obtain the `URI`.
-
   - 带有 URI 模板的静态工厂方法。
 
   - 添加或替换 URI 组件。
@@ -3619,8 +3593,6 @@ val uri = uriComponents.expand("Westin", "123").toUri()
   - 构建一个 `UriComponents`。
 
   - 展开变量并获取`URI`。
-
-The preceding example can be consolidated into one chain and shortened with `buildAndExpand`, as the following example shows:
 
 前面的示例可以合并为一个链并简化为使用 `buildAndExpand` ，如下例所示：
 
@@ -3646,9 +3618,7 @@ val uri = UriComponentsBuilder
         .toUri()
 ```
 
-You can shorten it further by going directly to a URI (which implies encoding), as the following example shows:
-
-你可以通过直接转换为 URI（自动隐式编码）来进一步简化它，如以下示例所示：
+你也可以通过直接转换为 URI（自动隐式编码）来进一步简化它，如以下示例所示：
 
 **Java.**
 
@@ -3668,9 +3638,7 @@ val uri = UriComponentsBuilder
         .build("Westin", "123")
 ```
 
-You can shorten it further still with a full URI template, as the following example shows:
-
-你可以使用一个完整的URI模板进一步简化实现，如下示例：
+或者可以使用一个完整的URI模板进一步简化实现，如下示例：
 
 **Java.**
 
@@ -3692,13 +3660,7 @@ val uri = UriComponentsBuilder
 
 Spring MVC and Spring WebFlux
 
-[`UriComponentsBuilder`](#web-uricomponents) implements `UriBuilder`. You can create a `UriBuilder`, in turn, with a `UriBuilderFactory`. Together, `UriBuilderFactory` and `UriBuilder` provide a pluggable mechanism to build URIs from URI templates, based on shared configuration, such as a base URL, encoding preferences, and other details.
-
-You can configure `RestTemplate` and `WebClient` with a `UriBuilderFactory` to customize the preparation of URIs. `DefaultUriBuilderFactory` is a default implementation of `UriBuilderFactory` that uses `UriComponentsBuilder` internally and exposes shared configuration options.
-
-The following example shows how to configure a `RestTemplate`:
-
-[`UriComponentsBuilder`](#web-uricomponents) 实现了 `UriBuilder`。 你可以使用 `UriBuilderFactory`创建一个 `UriBuilder`。 `UriBuilderFactory` 和 `UriBuilder` 一起提供了一种可插拔机制，可以根据共享配置（例如基本 URL、编码首选项和其他信息）从 URI 模板构建 URI。
+[`UriComponentsBuilder`](https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html#web-uricomponents) 实现了 `UriBuilder`。 你可以使用 `UriBuilderFactory`创建一个 `UriBuilder`。 `UriBuilderFactory` 和 `UriBuilder` 一起提供了一种可插拔机制，可以根据共享配置（例如基本 URL、编码首选项和其他信息）从 URI 模板构建 URI。
 
 你可以使用 `UriBuilderFactory` 配置 `RestTemplate` 和 `WebClient` 来为定义 URI 做准备。 `DefaultUriBuilderFactory` 是 `UriBuilderFactory` 的默认实现，它在内部使用 `UriComponentsBuilder` 并暴露共享配置选项。
 
@@ -3730,7 +3692,7 @@ val restTemplate = RestTemplate()
 restTemplate.uriTemplateHandler = factory
 ```
 
-The following example configures a `WebClient`:
+以下示例显示了如何配置 `WebClient`：
 
 **Java.**
 
@@ -3755,8 +3717,6 @@ factory.encodingMode = EncodingMode.TEMPLATE_AND_VALUES
 
 val client = WebClient.builder().uriBuilderFactory(factory).build()
 ```
-
-In addition, you can also use `DefaultUriBuilderFactory` directly. It is similar to using `UriComponentsBuilder` but, instead of static factory methods, it is an actual instance that holds configuration and preferences, as the following example shows:
 
 另外，你也可以直接使用 DefaultUriBuilderFactory 。 它类似于使用“UriComponentsBuilder”，但不是使用静态工厂方法，而是一个包含配置和首选项的实际实例，如以下示例所示：
 
@@ -3788,23 +3748,9 @@ Spring MVC and Spring WebFlux
 
 `UriComponentsBuilder` exposes encoding options at two levels:
 
-  - {api-spring-framework}/web/util/UriComponentsBuilder.html\#encode--\[UriComponentsBuilder\#encode()\]: Pre-encodes the URI template first and then strictly encodes URI variables when expanded.
-
-  - {api-spring-framework}/web/util/UriComponents.html\#encode--\[UriComponents\#encode()\]: Encodes URI components *after* URI variables are expanded.
-
   - [UriComponentsBuilder#encode()](https://docs.spring.io/spring-framework/docs/5.3.7/javadoc-api/org/springframework/web/util/UriComponentsBuilder.html#encode--): 首先对 URI 模板进行预编码，然后在展开时对 URI 变量进行严格编码。
 
   - [UriComponents#encode()](https://docs.spring.io/spring-framework/docs/5.3.7/javadoc-api/org/springframework/web/util/UriComponents.html#encode--): 在扩展 URI 变量之后对 URI 组件进行编码。
-
-Both options replace non-ASCII and illegal characters with escaped octets. However, the first option also replaces characters with reserved meaning that appear in URI variables.
-
-> **Tip**
-> 
-> Consider ";", which is legal in a path but has reserved meaning. The first option replaces ";" with "%3B" in URI variables but not in the URI template. By contrast, the second option never replaces ";", since it is a legal character in a path.
-
-For most cases, the first option is likely to give the expected result, because it treats URI variables as opaque data to be fully encoded, while the second option is useful if URI variables do intentionally contain reserved characters. The second option is also useful when not expanding URI variables at all since that will also encode anything that incidentally looks like a URI variable.
-
-The following example uses the first option:
 
 这两个选项都用转义的八位字节替换非 ASCII 和非法字符。 但是，第一个选项也会替换出现在 URI 变量中的具有保留含义的字符。
 
@@ -3840,8 +3786,6 @@ val uri = UriComponentsBuilder.fromPath("/hotel list/{city}")
 // Result is "/hotel%20list/New%20York?q=foo%2Bbar"
 ```
 
-You can shorten the preceding example by going directly to the URI (which implies encoding), as the following example shows:
-
 你可以通过直接转换为 URI（自动隐式编码）来进一步简化它，如以下示例所示：
 
 **Java.**
@@ -3860,8 +3804,6 @@ val uri = UriComponentsBuilder.fromPath("/hotel list/{city}")
         .build("New York", "foo+bar")
 ```
 
-You can shorten it further still with a full URI template, as the following example shows:
-
 你可以使用一个完整的URI模板进一步简化实现，如下示例：
 
 **Java.**
@@ -3877,8 +3819,6 @@ URI uri = UriComponentsBuilder.fromUriString("/hotel list/{city}?q={q}")
 val uri = UriComponentsBuilder.fromUriString("/hotel list/{city}?q={q}")
         .build("New York", "foo+bar")
 ```
-
-The `WebClient` and the `RestTemplate` expand and encode URI templates internally through the `UriBuilderFactory` strategy. Both can be configured with a custom strategy. as the following example shows:
 
 `WebClient` 和 `RestTemplate` 在内部通过 `UriBuilderFactory` 策略扩展和编码 URI 模板。 两者都可以使用自定义策略进行配置。 如以下示例所示：
 
@@ -3914,18 +3854,6 @@ val restTemplate = RestTemplate().apply {
 val client = WebClient.builder().uriBuilderFactory(factory).build()
 ```
 
-The `DefaultUriBuilderFactory` implementation uses `UriComponentsBuilder` internally to expand and encode URI templates. As a factory, it provides a single place to configure the approach to encoding, based on one of the below encoding modes:
-
-  - `TEMPLATE_AND_VALUES`: Uses `UriComponentsBuilder#encode()`, corresponding to the first option in the earlier list, to pre-encode the URI template and strictly encode URI variables when expanded.
-
-  - `VALUES_ONLY`: Does not encode the URI template and, instead, applies strict encoding to URI variables through `UriUtils#encodeUriVariables` prior to expanding them into the template.
-
-  - `URI_COMPONENT`: Uses `UriComponents#encode()`, corresponding to the second option in the earlier list, to encode URI component value *after* URI variables are expanded.
-
-  - `NONE`: No encoding is applied.
-
-The `RestTemplate` is set to `EncodingMode.URI_COMPONENT` for historic reasons and for backwards compatibility. The `WebClient` relies on the default value in `DefaultUriBuilderFactory`, which was changed from `EncodingMode.URI_COMPONENT` in 5.0.x to `EncodingMode.TEMPLATE_AND_VALUES` in 5.1.
-
 `DefaultUriBuilderFactory` 实现在内部使用 `UriComponentsBuilder` 来扩展和编码 URI 模板。作为一个工厂，它提供了一个单一的地方来配置编码方法，基于以下编码模式之一：
 
   - `TEMPLATE_AND_VALUES`：使用 `UriComponentsBuilder#encode()`，对应于前面列表中的第一个选项，对 URI 模板进行预编码，并在扩展时对 URI 变量进行严格编码。
@@ -3940,23 +3868,17 @@ The `RestTemplate` is set to `EncodingMode.URI_COMPONENT` for historic reasons a
 
 # CORS
 
-[Web MVC](web.xml#mvc-cors)
+[Web MVC](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-cors)
 
-Spring WebFlux lets you handle CORS (Cross-Origin Resource Sharing). This section describes how to do so.
-
-Spring WebFlux 可让您处理 CORS（跨站资源共享）。 本节介绍如何执行此操作。
+Spring WebFlux 可让你处理 CORS（跨站资源共享）。 本节介绍如何执行此操作。
 
 ## Introduction
 
 ## 介绍
 
-[Web MVC](web.xml#mvc-cors-intro)
+[Web MVC](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-cors-intro)
 
-For security reasons, browsers prohibit AJAX calls to resources outside the current origin. For example, you could have your bank account in one tab and evil.com in another. Scripts from evil.com should not be able to make AJAX requests to your bank API with your credentials — for example, withdrawing money from your account\!
-
-Cross-Origin Resource Sharing (CORS) is a [W3C specification](https://www.w3.org/TR/cors/) implemented by [most browsers](https://caniuse.com/#feat=cors) that lets you specify what kind of cross-domain requests are authorized, rather than using less secure and less powerful workarounds based on IFRAME or JSONP.
-
-出于安全原因，浏览器禁止对当前来源之外的资源进行 AJAX 调用。 例如，你可以在一个页面中登录你的银行帐户，而在另一个页面中访问 evil.com。 来自 evil.com 的脚本不应能够使用你的凭据向你的银行 API 发出 AJAX 请求 — 例如，从你的帐户中取款\！
+出于安全原因，浏览器禁止对当前来源之外的资源进行 AJAX 调用。 例如，你可以在一个页面中登录你的银行帐户，而在另一个页面中访问 evil.com。 来自 evil.com 的脚本不应能够使用你的凭据向你的银行 API 发出 AJAX 请求 — 例如，从你的帐户中取款！
 
 跨站资源共享 (CORS) 是由 [大多数浏览器](https://caniuse.com/#feat=cors) 实现的 [W3C 规范](https://www.w3.org/TR/cors/) 这让你可以指定授权的跨域请求类型，而不是使用基于 IFRAME 或 JSONP 的安全性较低且功能较弱的解决方法。
 
@@ -3964,41 +3886,19 @@ Cross-Origin Resource Sharing (CORS) is a [W3C specification](https://www.w3.org
 
 ## 处理
 
-[Web MVC](web.xml#mvc-cors-processing)
-
-The CORS specification distinguishes between preflight, simple, and actual requests. To learn how CORS works, you can read [this article](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS), among many others, or see the specification for more details.
-
-Spring WebFlux `HandlerMapping` implementations provide built-in support for CORS. After successfully mapping a request to a handler, a `HandlerMapping` checks the CORS configuration for the given request and handler and takes further actions. Preflight requests are handled directly, while simple and actual CORS requests are intercepted, validated, and have the required CORS response headers set.
-
-In order to enable cross-origin requests (that is, the `Origin` header is present and differs from the host of the request), you need to have some explicitly declared CORS configuration. If no matching CORS configuration is found, preflight requests are rejected. No CORS headers are added to the responses of simple and actual CORS requests and, consequently, browsers reject them.
-
-Each `HandlerMapping` can be {api-spring-framework}/web/reactive/handler/AbstractHandlerMapping.html\#setCorsConfigurations-java.util.Map-\[configured\] individually with URL pattern-based `CorsConfiguration` mappings. In most cases, applications use the WebFlux Java configuration to declare such mappings, which results in a single, global map passed to all `HandlerMapping` implementations.
-
-You can combine global CORS configuration at the `HandlerMapping` level with more fine-grained, handler-level CORS configuration. For example, annotated controllers can use class- or method-level `@CrossOrigin` annotations (other handlers can implement `CorsConfigurationSource`).
-
-The rules for combining global and local configuration are generally additive — for example, all global and all local origins. For those attributes where only a single value can be accepted, such as `allowCredentials` and `maxAge`, the local overrides the global value. See {api-spring-framework}/web/cors/CorsConfiguration.html\#combine-org.springframework.web.cors.CorsConfiguration-\[`CorsConfiguration#combine(CorsConfiguration)`\] for more details.
+[Web MVC](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-cors-processing)
 
 CORS 规范区分了预检请求、简单请求和实际请求。要了解 CORS 的工作原理，你可以阅读 [这篇文章](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) 等，或查看规范以获取更多详细信息。
 
-Spring WebFlux `HandlerMapping` 实现为 CORS 提供了内置支持。成功将请求映射到处理器后，“HandlerMapping”会检查给定请求和处理程序的 CORS 配置并采取进一步行动。预检请求被直接处理，而简单和实际的 CORS 请求被拦截、验证并设置所需的 CORS 响应首部。
+Spring WebFlux `HandlerMapping` 实现为 CORS 提供了内置支持。成功将请求映射到处理器后， `HandlerMapping` 会检查给定请求和处理程序的 CORS 配置并采取进一步行动。预检请求被直接处理，而简单和实际的 CORS 请求被拦截、验证并设置所需的 CORS 响应首部。
 
 为了启用跨域请求（即，存在 `Origin` 标头并且与请求的主机不同），你需要有一些显式声明的 CORS 配置。如果未找到匹配的 CORS 配置，则拒绝预检请求，并且不会将 CORS 首部添加到简单和实际 CORS 请求的响应中，因此浏览器会拒绝它们。
 
 每个 `HandlerMapping` 可以 [配置 ](https://docs.spring.io/spring-framework/docs/5.3.7/javadoc-api/org/springframework/web/reactive/handler/AbstractHandlerMapping.html#setCorsConfigurations-java.util.Map-) 为单独使用基于 URL 模式的 `CorsConfiguration` 映射。在大多数情况下，应用程序使用 WebFlux Java 配置来声明此类映射，这样的话所有 `HandlerMapping` 实现都会使用一个单一的全局映射。
 
-您可以将“HandlerMapping”级别的全局 CORS 配置与更细粒度的处理器级别的 CORS 配置相结合。例如，带注释的控制器可以使用类或方法级别的 `@CrossOrigin` 注释（其他处理器可以实现 `CorsConfigurationSource`）。
+你可以将 `HandlerMapping` 级别的全局 CORS 配置与更细粒度的处理器级别的 CORS 配置相结合。例如，带注解的控制器可以使用类或方法级别的 `@CrossOrigin` 注释（其他处理器可以实现 `CorsConfigurationSource`）。
 
 结合全局和局部配置的规则一般是相加的 —— 例如，所有全局和所有局部的源。对于那些只能接受单个值的属性，例如 `allowCredentials` 和 `maxAge`，局部值会覆盖全局值。有关更多详细信息，请参阅 [ CorsConfiguration#combine(CorsConfiguration)](https://docs.spring.io/spring-framework/docs/5.3.7/javadoc-api/org/springframework/web/cors/CorsConfiguration.html#combine-org.springframework.web.cors.CorsConfiguration-)。
-
-> **Tip**
-> 
-> To learn more from the source or to make advanced customizations, see:
-> 
->   - `CorsConfiguration`
-> 
->   - `CorsProcessor` and `DefaultCorsProcessor`
-> 
->   - `AbstractHandlerMapping`
 
 > **提示**
 > 
@@ -4012,9 +3912,7 @@ Spring WebFlux `HandlerMapping` 实现为 CORS 提供了内置支持。成功将
 
 ## `@CrossOrigin`
 
-[Web MVC](web.xml#mvc-cors-controller)
-
-The {api-spring-framework}/web/bind/annotation/CrossOrigin.html\[`@CrossOrigin`\] annotation enables cross-origin requests on annotated controller methods, as the following example shows:
+[Web MVC](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-cors-controller)
 
 [@CrossOrigin](https://docs.spring.io/spring-framework/docs/5.3.7/javadoc-api/org/springframework/web/bind/annotation/CrossOrigin.html)注解在一个基于注解的控制器方法上启用跨站请求访问，如下示例所示：
 
@@ -4057,20 +3955,6 @@ class AccountController {
     }
 }
 ```
-
-By default, `@CrossOrigin` allows:
-
-  - All origins.
-
-  - All headers.
-
-  - All HTTP methods to which the controller method is mapped.
-
-`allowCredentials` is not enabled by default, since that establishes a trust level that exposes sensitive user-specific information (such as cookies and CSRF tokens) and should be used only where appropriate. When it is enabled either `allowOrigins` must be set to one or more specific domain (but not the special value `"*"`) or alternatively the `allowOriginPatterns` property may be used to match to a dynamic set of origins.
-
-`maxAge` is set to 30 minutes.
-
-`@CrossOrigin` is supported at the class level, too, and inherited by all methods. The following example specifies a certain domain and sets `maxAge` to an hour:
 
 默认情况下，`@CrossOrigin` 允许：
 
@@ -4126,8 +4010,6 @@ class AccountController {
 }
 ```
 
-You can use `@CrossOrigin` at both the class and the method level, as the following example shows:
-
  `@CrossOrigin` 可以同时在类和方法级别使用，如下示例所示：
 
 **Java.**
@@ -4172,27 +4054,9 @@ class AccountController {
 }
 ```
 
-## Global Configuration
-
 ## 全局配置
 
-[Web MVC](web.xml#mvc-cors-global)
-
-In addition to fine-grained, controller method-level configuration, you probably want to define some global CORS configuration, too. You can set URL-based `CorsConfiguration` mappings individually on any `HandlerMapping`. Most applications, however, use the WebFlux Java configuration to do that.
-
-By default global configuration enables the following:
-
-  - All origins.
-
-  - All headers.
-
-  - `GET`, `HEAD`, and `POST` methods.
-
-`allowedCredentials` is not enabled by default, since that establishes a trust level that exposes sensitive user-specific information( such as cookies and CSRF tokens) and should be used only where appropriate. When it is enabled either `allowOrigins` must be set to one or more specific domain (but not the special value `"*"`) or alternatively the `allowOriginPatterns` property may be used to match to a dynamic set of origins.
-
-`maxAge` is set to 30 minutes.
-
-To enable CORS in the WebFlux Java configuration, you can use the `CorsRegistry` callback, as the following example shows:
+[Web MVC](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-cors-global)
 
 默认情况下，`@CrossOrigin` 允许：
 
@@ -4253,18 +4117,9 @@ class WebConfig : WebFluxConfigurer {
 
 ## CORS `WebFilter`
 
-[Web MVC](web.xml#mvc-cors-filter)
-
-You can apply CORS support through the built-in [CorsWebFilter](https://docs.spring.io/spring-framework/docs/5.3.7/javadoc-api/org/springframework/web/cors/reactive/CorsWebFilter.html), which is a good fit with [functional endpoints](https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html#webflux-fn).
+[Web MVC](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-cors-filter)
 
 可以使用内置的[CorsWebFilter](https://docs.spring.io/spring-framework/docs/5.3.7/javadoc-api/org/springframework/web/cors/reactive/CorsWebFilter.html)来支持CORS，适合使用[functional endpoints](https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html#webflux-fn)。
-
-
-> **Note**
-> 
-> If you try to use the `CorsFilter` with Spring Security, keep in mind that Spring Security has [built-in support](https://docs.spring.io/spring-security/site/docs/current/reference/htmlsingle/#cors) for CORS.
-
-To configure the filter, you can declare a `CorsWebFilter` bean and pass a `CorsConfigurationSource` to its constructor, as the following example shows:
 
 > **注意**
 >
@@ -4320,9 +4175,7 @@ fun corsFilter(): CorsWebFilter {
 
 # Web Security
 
-[Web MVC](web.xml#mvc-web-security)
-
-The [Spring Security](https://projects.spring.io/spring-security/) project provides support for protecting web applications from malicious exploits. See the Spring Security reference documentation, including:
+[Web MVC](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-web-security)
 
 [Spring Security](https://projects.spring.io/spring-security/) 项目为保护 Web 应用程序免受恶意攻击提供支持。 请参阅 Spring Security 参考文档，包括：
 
@@ -4334,23 +4187,15 @@ The [Spring Security](https://projects.spring.io/spring-security/) project provi
 
   - [Security Response Headers]https://docs.spring.io/spring-security/site/docs/current/reference/html5/#headers)
 
-# View Technologies
-
 # 视图技术
 
-[Web MVC](web.xml#mvc-view)
-
-The use of view technologies in Spring WebFlux is pluggable. Whether you decide to use Thymeleaf, FreeMarker, or some other view technology is primarily a matter of a configuration change. This chapter covers the view technologies integrated with Spring WebFlux. We assume you are already familiar with [View Resolution](https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html#webflux-viewresolution).
+[Web MVC](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-view)
 
 Spring WebFlux 中视图技术的使用是可插拔的。 无论你决定使用 Thymeleaf、FreeMarker 还是其他一些视图技术，主要是配置更改的问题。 本章涵盖了与 Spring WebFlux 集成的视图技术。 我们假设你已经熟悉 [View Resolution](https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html#webflux-viewresolution)。
 
 ## Thymeleaf
 
-[Web MVC](web.xml#mvc-view-thymeleaf)
-
-Thymeleaf is a modern server-side Java template engine that emphasizes natural HTML templates that can be previewed in a browser by double-clicking, which is very helpful for independent work on UI templates (for example, by a designer) without the need for a running server. Thymeleaf offers an extensive set of features, and it is actively developed and maintained. For a more complete introduction, see the [Thymeleaf](https://www.thymeleaf.org/) project home page.
-
-The Thymeleaf integration with Spring WebFlux is managed by the Thymeleaf project. The configuration involves a few bean declarations, such as `SpringResourceTemplateResolver`, `SpringWebFluxTemplateEngine`, and `ThymeleafReactiveViewResolver`. For more details, see [Thymeleaf+Spring](https://www.thymeleaf.org/documentation.html) and the WebFlux integration [announcement](http://forum.thymeleaf.org/Thymeleaf-3-0-8-JUST-PUBLISHED-td4030687.html).
+[Web MVC](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-view-thymeleaf)
 
 Thymeleaf 是一个现代的服务器端 Java 模板引擎，它的 HTML 模板可以直接在浏览器中进行预览，非常适合 UI 模板设计工作（例如，设计师），而无需运行服务器。 Thymeleaf 提供了广泛的功能集，并且正在积极开发和维护。 更完整的介绍见[Thymeleaf](https://www.thymeleaf.org/)项目主页。
 
@@ -4358,17 +4203,13 @@ Thymeleaf 与 Spring WebFlux 的集成由 Thymeleaf 项目管理。 配置涉及
 
 ## FreeMarker
 
-[Web MVC](web.xml#mvc-view-freemarker)
-
-[Apache FreeMarker](https://freemarker.apache.org/) is a template engine for generating any kind of text output from HTML to email and others. The Spring Framework has built-in integration for using Spring WebFlux with FreeMarker templates.
+[Web MVC](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-view-freemarker)
 
 [Apache FreeMarker](https://freemarker.apache.org/) 是一个模板引擎，用于生成从 HTML 到电子邮件等的任何类型的文本输出。 Spring 框架具有内置支持将 Spring WebFlux 与 FreeMarker 模板集成。
 
 ### View Configuration
 
-[Web MVC](web.xml#mvc-view-freemarker-contextconfig)
-
-The following example shows how to configure FreeMarker as a view technology:
+[Web MVC](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-view-freemarker-contextconfig)
 
 以下示例显示了如何将 FreeMarker 配置为视图展示：
 
@@ -4415,17 +4256,11 @@ class WebConfig : WebFluxConfigurer {
 }
 ```
 
-Your templates need to be stored in the directory specified by the `FreeMarkerConfigurer`, shown in the preceding example. Given the preceding configuration, if your controller returns the view name, `welcome`, the resolver looks for the `classpath:/templates/freemarker/welcome.ftl` template.
-
-模板需要存储在“FreeMarkerConfigurer”指定的目录中，如前面的示例所示。 基于前面的配置，如果控制器返回视图名称“welcome”，解析器将按照这个路径“classpath:/templates/freemarker/welcome.ftl”来查找模板。
-
-### FreeMarker Configuration
+模板需要存储在 `FreeMarkerConfigurer` 指定的目录中，如前面的示例所示。 基于前面的配置，如果控制器返回视图名称 `welcome`，解析器将按照这个路径`classpath:/templates/freemarker/welcome.ftl`来查找模板。
 
 ### FreeMarker 配置
 
-[Web MVC](web.xml#mvc-views-freemarker)
-
-You can pass FreeMarker 'Settings' and 'SharedVariables' directly to the FreeMarker `Configuration` object (which is managed by Spring) by setting the appropriate bean properties on the `FreeMarkerConfigurer` bean. The `freemarkerSettings` property requires a `java.util.Properties` object, and the `freemarkerVariables` property requires a `java.util.Map`. The following example shows how to use a `FreeMarkerConfigurer`:
+[Web MVC](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-views-freemarker)
 
 你可以通过在 `FreeMarkerConfigurer` bean 上设置适当的 bean 属性，将 FreeMarker 的“Settings”和“SharedVariables”直接传递给 FreeMarker `Configuration` 对象（由 Spring 管理）。 `freemarkerSettings` 属性需要一个 `java.util.Properties` 对象， `freemarkerVariables` 属性需要一个 `java.util.Map`对象。 以下示例显示了如何使用 `FreeMarkerConfigurer`：
 
@@ -4468,41 +4303,25 @@ class WebConfig : WebFluxConfigurer {
 }
 ```
 
-See the FreeMarker documentation for details of settings and variables as they apply to the `Configuration` object.
-
 有关适用于 `Configuration` 对象的设置和变量的详细信息，请参阅 FreeMarker 文档。
-
-### Form Handling
 
 ### 处理表单
 
-[Web MVC](web.xml#mvc-view-freemarker-forms)
-
-Spring provides a tag library for use in JSPs that contains, among others, a `<spring:bind/>` element. This element primarily lets forms display values from form-backing objects and show the results of failed validations from a `Validator` in the web or business tier. Spring also has support for the same functionality in FreeMarker, with additional convenience macros for generating form input elements themselves.
+[Web MVC](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-view-freemarker-forms)
 
 Spring 提供了一个用于 JSP 的标记库，其中包含一个 `<spring:bind/>` 元素。 此元素主要让表单显示来自表单支持对象的值，并显示来自 Web 或业务层中的“验证器”的验证失败的结果。 Spring 还支持 FreeMarker 中的相同功能，以及用于生成表单输入元素本身的宏。
 
-#### The Bind Macros
+#### 绑定宏
 
-[Web MVC](web.xml#mvc-view-bind-macros)
-
-A standard set of macros are maintained within the `spring-webflux.jar` file for FreeMarker, so they are always available to a suitably configured application.
-
-Some of the macros defined in the Spring templating libraries are considered internal (private), but no such scoping exists in the macro definitions, making all macros visible to calling code and user templates. The following sections concentrate only on the macros you need to directly call from within your templates. If you wish to view the macro code directly, the file is called `spring.ftl` and is in the `org.springframework.web.reactive.result.view.freemarker` package.
+[Web MVC](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-view-bind-macros)
 
 在 FreeMarker 的 `spring-webflux.jar` 文件中维护了一组标准的宏，因此它们始终可供适当配置的应用程序使用。
 
 Spring 模板库中定义的一些宏被认为是内部的（私有的），但宏定义中不是这样的，所有宏都对调用代码和用户模板可见。 以下部分仅关注你需要从模板中直接调用的宏。 如果你想直接查看宏代码，这个文件叫做 `spring.ftl` ，在 `org.springframework.web.reactive.result.view.freemarker` 这个包中。
 
-For additional details on binding support, see [Simple Binding](web.xml#mvc-view-simple-binding) for Spring MVC.
-
 关于绑定支持的更多信息，请参考[Simple Binding](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-view-simple-binding)
 
-#### Form Macros
-
 #### 表单宏
-
-For details on Spring’s form macro support for FreeMarker templates, consult the following sections of the Spring MVC documentation.
 
 有关 Spring 对 FreeMarker 模板的表单宏支持的详细信息，请参阅 Spring MVC 文档的以下部分。
 
@@ -4514,13 +4333,9 @@ For details on Spring’s form macro support for FreeMarker templates, consult t
 
   - [HTML Escaping](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-views-form-macros-html-escaping)
 
-## Script Views
-
 ## 脚本视图
 
-[Web MVC](web.xml#mvc-view-script)
-
-The Spring Framework has a built-in integration for using Spring WebFlux with any templating library that can run on top of the [JSR-223](https://www.jcp.org/en/jsr/detail?id=223) Java scripting engine. The following table shows the templating libraries that we have tested on different script engines:
+[Web MVC](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-view-script)
 
 Spring 框架具有内置集成，用于将 Spring WebFlux 与任何可以在 [JSR-223](https://www.jcp.org/en/jsr/detail?id=223) Java 脚本引擎之上运行的模板库一起使用。 下表显示了我们在不同脚本引擎上测试过的模板库：
 
@@ -4534,31 +4349,13 @@ Spring 框架具有内置集成，用于将 Spring WebFlux 与任何可以在 [J
 | [String templates](https://docs.python.org/2/library/string.html#template-strings) | [Jython](https://www.jython.org/)                     |
 | [Kotlin Script templating](https://github.com/sdeleuze/kotlin-script-templating)   | [Kotlin](https://kotlinlang.org/)                     |
 
-> **Tip**
-> 
-> The basic rule for integrating any other script engine is that it must implement the `ScriptEngine` and `Invocable` interfaces.
-
 > **提示**
 >
 > 集成任何其他脚本引擎的基本规则是它必须实现`ScriptEngine` 和`Invocable` 接口。
 
-### Requirements
-
 ### 需求
 
-[Web MVC](web.xml#mvc-view-script-dependencies)
-
-You need to have the script engine on your classpath, the details of which vary by script engine:
-
-  - The [Nashorn](https://openjdk.java.net/projects/nashorn/) JavaScript engine is provided with Java 8+. Using the latest update release available is highly recommended.
-
-  - [JRuby](https://www.jruby.org) should be added as a dependency for Ruby support.
-
-  - [Jython](https://www.jython.org) should be added as a dependency for Python support.
-
-  - `org.jetbrains.kotlin:kotlin-script-util` dependency and a `META-INF/services/javax.script.ScriptEngineFactory` file containing a `org.jetbrains.kotlin.script.jsr223.KotlinJsr223JvmLocalScriptEngineFactory` line should be added for Kotlin script support. See [this example](https://github.com/sdeleuze/kotlin-script-templating) for more detail.
-
-You need to have the script templating library. One way to do that for Javascript is through [WebJars](https://www.webjars.org/).
+[Web MVC](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-view-script-dependencies)
 
 在类路径上需要有脚本引擎相关依赖，其详细信息因脚本引擎而异：
 
@@ -4572,13 +4369,9 @@ You need to have the script templating library. One way to do that for Javascrip
 
 你需要有脚本模板库。 对 Javascript 执行此操作的一种方法是通过 [WebJars](https://www.webjars.org/)。
 
-### Script Templates
-
 ### 脚本模板
 
-[Web MVC](web.xml#mvc-view-script-integrate)
-
-You can declare a `ScriptTemplateConfigurer` bean to specify the script engine to use, the script files to load, what function to call to render templates, and so on. The following example uses Mustache templates and the Nashorn JavaScript engine:
+[Web MVC](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-view-script-integrate)
 
 你可以声明一个 `ScriptTemplateConfigurer` bean 来指定要使用的脚本引擎、要加载的脚本文件、要调用哪些函数来渲染模板等。 以下示例使用 Mustache 模板和 Nashorn JavaScript 引擎：
 
@@ -4627,29 +4420,17 @@ class WebConfig : WebFluxConfigurer {
 }
 ```
 
-The `render` function is called with the following parameters:
-
-  - `String template`: The template content
-
-  - `Map model`: The view model
-
-  - `RenderingContext renderingContext`: The [`RenderingContext`](https://docs.spring.io/spring-framework/docs/5.3.7/javadoc-api/org/springframework/web/servlet/view/script/RenderingContext.html) that gives access to the application context, the locale, the template loader, and the URL (since 5.0)
-
-`Mustache.render()` is natively compatible with this signature, so you can call it directly.
-
-If your templating technology requires some customization, you can provide a script that implements a custom render function. For example, [Handlerbars](https://handlebarsjs.com) needs to compile templates before using them and requires a [polyfill](https://en.wikipedia.org/wiki/Polyfill) in order to emulate some browser facilities not available in the server-side script engine. The following example shows how to set a custom render function:
-
 `render` 函数使用以下参数调用：
 
    - `String template`：模板内容
 
-   - `地图模型`：视图模型
+   - `Map model`：视图模型
 
    - `RenderingContext renderingContext`：[`RenderingContext`](https://docs.spring.io/spring-framework/docs/5.3.7/javadoc-api/org/springframework/web/servlet/view/script/RenderingContext.html) 提供对应用程序上下文、语言环境、模板加载器和 URL（从5.0版本开始）
 
 `Mustache.render()` 与此签名原生兼容，因此你可以直接调用它。
 
-如果您的模板技术需要一些自定义，你可以提供一个实现自定义渲染功能的脚本。 例如，[Handlerbars](https://handlebarsjs.com) 需要在使用模板之前编译它们并且需要一个 [polyfill](https://en.wikipedia.org/wiki/Polyfill) 以模拟一些在服务器端脚本引擎中不可用的浏览器设施。 以下示例显示了如何设置自定义渲染功能：
+如果你的模板技术需要一些自定义，你可以提供一个实现自定义渲染功能的脚本。 例如，[Handlerbars](https://handlebarsjs.com) 需要在使用模板之前编译它们并且需要一个 [polyfill](https://en.wikipedia.org/wiki/Polyfill) 以模拟一些在服务器端脚本引擎中不可用的浏览器设施。 以下示例显示了如何设置自定义渲染功能：
 
 **Java.**
 
@@ -4696,23 +4477,15 @@ class WebConfig : WebFluxConfigurer {
 }
 ```
 
-> **Note**
-> 
-> Setting the `sharedEngine` property to `false` is required when using non-thread-safe script engines with templating libraries not designed for concurrency, such as Handlebars or React running on Nashorn. In that case, Java SE 8 update 60 is required, due to [this bug](https://bugs.openjdk.java.net/browse/JDK-8076099), but it is generally recommended to use a recent Java SE patch release in any case.
-
-`polyfill.js` defines only the `window` object needed by Handlebars to run properly, as the following snippet shows:
-
 > **注意**
 >
-> 当使用非线程安全脚本引擎和非并发设计的模板库时，需要将 `sharedEngine` 属性设置为 `false`，例如在 Nashorn 上运行的 Handlebars 或 React。 在这种情况下，由于 [此错误](https://bugs.openjdk.java.net/browse/JDK-8076099)，需要 Java SE 8 更新 60，但通常建议使用最新release版本的Java SE补丁。
+> 当使用非线程安全脚本引擎和非并发设计的模板库时，需要将 `sharedEngine` 属性设置为 `false`，例如在 Nashorn 上运行的 Handlebars 或 React。 在这种情况下，由于 [此错误](https://bugs.openjdk.java.net/browse/JDK-8076099)，需要 Java SE 8 update 60，但通常建议使用最新release版本的Java SE补丁。
 
 `polyfill.js` 仅定义了 Handlebars 正常运行所需的 `window` 对象，如下面的代码片段所示：
 
 ``` javascript
 var window = {};
 ```
-
-This basic `render.js` implementation compiles the template before using it. A production ready implementation should also store and reused cached templates or pre-compiled templates. This can be done on the script side, as well as any customization you need (managing template engine configuration for example). The following example shows how compile a template:
 
 这个基本的 `render.js` 实现会在使用模板之前对其进行编译。 可用于生产环境的实现还应存储和重用缓存模板或预编译模板。 这可以在脚本端完成，也可以在你需要的任何自定义（例如管理模板引擎配置）上完成。 以下示例显示了如何编译模板：
 
@@ -4723,19 +4496,11 @@ function render(template, model) {
 }
 ```
 
-Check out the Spring Framework unit tests, {spring-framework-main-code}/spring-webflux/src/test/java/org/springframework/web/reactive/result/view/script\[Java\], and {spring-framework-main-code}/spring-webflux/src/test/resources/org/springframework/web/reactive/result/view/script\[resources\], for more configuration examples.
-
-查看 Spring Framework 单元测试，{spring-framework-main-code}/spring-webflux/src/test/java/org/springframework/web/reactive/result/view/script\[Java\] 和 {spring -framework-main-code}/spring-webflux/src/test/resources/org/springframework/web/reactive/result/view/script\[resources\]，更多配置示例。
+查看 Spring Framework 单元测试，[Java](https://github.com/spring-projects/spring-framework/tree/main/spring-webflux/src/test/java/org/springframework/web/reactive/result/view/script) 和[resources](https://github.com/spring-projects/spring-framework/tree/main/spring-webflux/src/test/resources/org/springframework/web/reactive/result/view/script)，更多配置示例。
 
 ## JSON and XML
 
-[Web MVC](web.xml#mvc-view-jackson)
-
-For [Content Negotiation](https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html#webflux-multiple-representations) purposes, it is useful to be able to alternate between rendering a model with an HTML template or as other formats (such as JSON or XML), depending on the content type requested by the client. To support doing so, Spring WebFlux provides the `HttpMessageWriterView`, which you can use to plug in any of the available [section\_title](#webflux-codecs) from `spring-web`, such as `Jackson2JsonEncoder`, `Jackson2SmileEncoder`, or `Jaxb2XmlEncoder`.
-
-Unlike other view technologies, `HttpMessageWriterView` does not require a `ViewResolver` but is instead [configured](#webflux-config-view-resolvers) as a default view. You can configure one or more such default views, wrapping different `HttpMessageWriter` instances or `Encoder` instances. The one that matches the requested content type is used at runtime.
-
-In most cases, a model contains multiple attributes. To determine which one to serialize, you can configure `HttpMessageWriterView` with the name of the model attribute to use for rendering. If the model contains only one attribute, that one is used.
+[Web MVC](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-view-jackson)
 
 为了 [内容协商](https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html#webflux-multiple-representations) 的目的，如果能够根据客户端请求的内容类型在渲染HTML模板或其他格式（例如 JSON 或 XML）之间自动切换是很有用的。 为了支持这样做，Spring WebFlux 提供了 `HttpMessageWriterView`，你可以使用它来插入来自 `spring-web` 的任何可用的[编解码器](https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html#webflux-codecs)，例如 `Jackson2JsonEncoder`、`Jackson2SmileEncoder `，或`Jaxb2XmlEncoder`。
 
@@ -4743,33 +4508,21 @@ In most cases, a model contains multiple attributes. To determine which one to s
 
 在大多数情况下，一个模型包含多个属性。要确定要序列化哪一个，你可以使用用于渲染的模型属性的名称配置 `HttpMessageWriterView`。如果模型仅包含一个属性，则使用该属性。
 
-# HTTP Caching
-
 # HTTP缓存
 
-[Web MVC](web.xml#mvc-caching)
+[Web MVC](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-caching)
 
-HTTP caching can significantly improve the performance of a web application. HTTP caching revolves around the `Cache-Control` response header and subsequent conditional request headers, such as `Last-Modified` and `ETag`. `Cache-Control` advises private (for example, browser) and public (for example, proxy) caches how to cache and re-use responses. An `ETag` header is used to make a conditional request that may result in a 304 (NOT\_MODIFIED) without a body, if the content has not changed. `ETag` can be seen as a more sophisticated successor to the `Last-Modified` header.
-
-This section describes the HTTP caching related options available in Spring WebFlux.
-
-HTTP 缓存可以显着提高 Web 应用程序的性能。 HTTP 缓存围绕“Cache-Control”响应头和后续条件请求头，例如“Last-Modified”和“ETag”。 `Cache-Control` 建议私有（例如，浏览器）和公共（例如，代理）缓存如何缓存和重用响应。 `ETag` 标头用于发出条件请求，如果内容没有改变，可能会导致 304 (NOT\_MODIFIED) 没有正文。 `ETag` 可以看作是 `Last-Modified` 首部的更复杂的继承者。
+HTTP 缓存可以显着提高 Web 应用程序的性能。 HTTP 缓存围绕“Cache-Control”响应头和后续条件请求头，例如“Last-Modified”和“ETag”。 `Cache-Control` 建议私有（例如，浏览器）和公共（例如，代理）缓存如何缓存和重用响应。 `ETag` 标头用于发出条件请求，如果内容没有改变，可能会导致 304 (NOT_MODIFIED) 没有正文。 `ETag` 可以看作是 `Last-Modified` 首部的更复杂的继承者。
 
 本节介绍 Spring WebFlux 中可用的 HTTP 缓存相关选项。
 
 ## `CacheControl`
-
-[Web MVC](web.xml#mvc-caching-cachecontrol)
-
-[`CacheControl`](https://docs.spring.io/spring-framework/docs/5.3.7/javadoc-api/org/springframework/http/CacheControl.html) provides support for configuring settings related to the `Cache-Control` header and is accepted as an argument in a number of places:
 
 [`CacheControl`](https://docs.spring.io/spring-framework/docs/5.3.7/javadoc-api/org/springframework/http/CacheControl.html) 提供支持配置与`Cache-Control` 首部相关的内容并在许多地方被接受为参数：
 
   - [Controllers](https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html#webflux-caching-etag-lastmodified)
 
   - [Static Resources](https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html#webflux-caching-static-resources)
-
-While [RFC 7234](https://tools.ietf.org/html/rfc7234#section-5.2.2) describes all possible directives for the `Cache-Control` response header, the `CacheControl` type takes a use case-oriented approach that focuses on the common scenarios, as the following example shows:
 
 虽然 [RFC 7234](https://tools.ietf.org/html/rfc7234#section-5.2.2) 描述了 `Cache-Control` 响应首部的所有可能指令，`CacheControl` 类型采用一个面向用例的方法，聚焦于通用场景，如以下示例所示：
 
@@ -4805,11 +4558,9 @@ val ccCustom = CacheControl.maxAge(10, TimeUnit.DAYS).noTransform().cachePublic(
 
 ## Controllers
 
-[Web MVC](web.xml#mvc-caching-etag-lastmodified)
+[Web MVC](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-caching-etag-lastmodified)
 
-Controllers can add explicit support for HTTP caching. We recommend doing so, since the `lastModified` or `ETag` value for a resource needs to be calculated before it can be compared against conditional request headers. A controller can add an `ETag` and `Cache-Control` settings to a `ResponseEntity`, as the following example shows:
-
-控制器可以添加对 HTTP 缓存的显式支持。 我们建议这样做，因为需要先计算资源的 `lastModified` 或 `ETag` 值，然后才能将其与条件请求首部进行比较。 控制器可以将“ETag”和“Cache-Control”设置添加到“ResponseEntity”，如下例所示：
+控制器可以添加对 HTTP 缓存的显式支持。 我们建议这样做，因为需要先计算资源的 `lastModified` 或 `ETag` 值，然后才能将其与条件请求首部进行比较。 控制器可以将`ETag`和`Cache-Control`设置添加到`ResponseEntity`，如下例所示：
 
 **Java.**
 
@@ -4845,13 +4596,9 @@ fun showBook(@PathVariable id: Long): ResponseEntity<Book> {
 }
 ```
 
-The preceding example sends a 304 (NOT\_MODIFIED) response with an empty body if the comparison to the conditional request headers indicates the content has not changed. Otherwise, the `ETag` and `Cache-Control` headers are added to the response.
+如果与条件请求首部的比较表明内容未更改，则前面的示例发送带有空正文的 304 (NOT_MODIFIED) 响应。 否则，`ETag` 和 `Cache-Control` 首部被添加到响应中。
 
-You can also make the check against conditional request headers in the controller, as the following example shows:
-
-如果与条件请求首部的比较表明内容未更改，则前面的示例发送带有空正文的 304 (NOT\_MODIFIED) 响应。 否则，`ETag` 和 `Cache-Control` 首部被添加到响应中。
-
-你还可以对控制器中的条件请求标头进行检查，如以下示例所示：
+你还可以对控制器中的条件请求首部进行检查，如以下示例所示：
 
 **Java.**
 
@@ -4870,15 +4617,9 @@ public String myHandleMethod(ServerWebExchange exchange, Model model) {
 }
 ```
 
-  - Application-specific calculation.
-
-  - Response has been set to 304 (NOT\_MODIFIED). No further processing.
-
-  - Continue with request processing.
-
   - 特定于应用程序的计算。
 
-  - 响应已设置为 304 (NOT\_MODIFIED)。 没有进一步处理。
+  - 响应已设置为 304 (NOT_MODIFIED)。 没有进一步处理。
 
   - 继续请求处理。
 
@@ -4899,50 +4640,31 @@ fun myHandleMethod(exchange: ServerWebExchange, model: Model): String? {
 }
 ```
 
-  - Application-specific calculation.
-
-  - Response has been set to 304 (NOT\_MODIFIED). No further processing.
-
-  - Continue with request processing.
-
   - 特定于应用程序的计算。
 
-  - 响应已设置为 304 (NOT\_MODIFIED)。 没有进一步处理。
+  - 响应已设置为 304 (NOT_MODIFIED)。 没有进一步处理。
 
   - 继续请求处理。
 
-There are three variants for checking conditional requests against `eTag` values, `lastModified` values, or both. For conditional `GET` and `HEAD` requests, you can set the response to 304 (NOT\_MODIFIED). For conditional `POST`, `PUT`, and `DELETE`, you can instead set the response to 412 (PRECONDITION\_FAILED) to prevent concurrent modification.
-
-
-有三种变体用于根据“eTag”值、“lastModified”值或两者来检查条件请求。 对于条件“GET”和“HEAD”请求，你可以将响应设置为 304（NOT\_MODIFIED）。 对于条件`POST`、`PUT`和`DELETE`，你可以将响应设置为412（PRECONDITION\_FAILED）以防止并发修改。
-
-## Static Resources
+有三种变体用于根据`eTag`值、`lastModified`值或两者来检查条件请求。 对于条件“GET”和“HEAD”请求，你可以将响应设置为 304（NOT_MODIFIED）。 对于条件`POST`、`PUT`和`DELETE`，你可以将响应设置为412（PRECONDITION_FAILED）以防止并发修改。
 
 ## 静态资源
 
-[Web MVC](web.xml#mvc-caching-static-resources)
-
-You should serve static resources with a `Cache-Control` and conditional response headers for optimal performance. See the section on configuring [Static Resources](https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html#webflux-config-static-resources).
+[Web MVC](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-caching-static-resources)
 
 你应该使用 `Cache-Control` 和条件响应首部为静态资源提供最佳性能。 参见配置[静态资源](https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html#webflux-config-static-resources)部分。
 
 # WebFlux Config
 
-[Web MVC](web.xml#mvc-config)
-
-The WebFlux Java configuration declares the components that are required to process requests with annotated controllers or functional endpoints, and it offers an API to customize the configuration. That means you do not need to understand the underlying beans created by the Java configuration. However, if you want to understand them, you can see them in `WebFluxConfigurationSupport` or read more about what they are in [Special Bean Types](https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html#webflux-special-bean-types).
+[Web MVC](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-config)
 
 WebFlux Java 配置声明了处理带有带注解的控制器或功能端点的请求所需的组件，并提供了一个 API 来自定义配置。 这意味着你不需要了解由 Java 配置创建的底层 bean。 然而，如果你想了解它们，你可以在`WebFluxConfigurationSupport`中找到它们或者在[Special Bean Types](https://docs.spring.io/spring-framework/docs/current/reference)中阅读更多关于它们的内容。
 
-For more advanced customizations, not available in the configuration API, you can gain full control over the configuration through the [Advanced Configuration Mode](https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html#webflux-config-advanced-java).
-
-对于配置 API 中没有的更高级的自定义，您可以通过[高级配置模式](https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html#webflux-config-advanced-java)
+对于配置 API 中没有的更高级的自定义，你可以通过[高级配置模式](https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html#webflux-config-advanced-java)进行完全的配置自定义。
 
 ## Enabling WebFlux Config
 
-[Web MVC](web.xml#mvc-config-enable)
-
-You can use the `@EnableWebFlux` annotation in your Java config, as the following example shows:
+[Web MVC](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-config-enable)
 
 你可以在Java配置中使用 `@EnableWebFlux` 注解，如下例所示：
 
@@ -4963,15 +4685,11 @@ public class WebConfig {
 class WebConfig
 ```
 
-The preceding example registers a number of Spring WebFlux [infrastructure beans](https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html#webflux-special-bean-types) and adapts to dependencies available on the classpath — for JSON, XML, and others.
-
 前面的示例根据类路径上可用的依赖项（如JSON、XML 等）注册了多个 Spring WebFlux [基础架构 bean](https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html#webflux-special-bean-types) 。
 
 ## WebFlux config API
 
-[Web MVC](web.xml#mvc-config-customize)
-
-In your Java configuration, you can implement the `WebFluxConfigurer` interface, as the following example shows:
+[Web MVC](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-config-customize)
 
 在 Java 配置中，你可以实现 `WebFluxConfigurer` 接口，如以下示例所示：
 
@@ -4999,13 +4717,9 @@ class WebConfig : WebFluxConfigurer {
 
 ## Conversion, formatting
 
-[Web MVC](web.xml#mvc-config-conversion)
+[Web MVC](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-config-conversion)
 
-By default, formatters for various number and date types are installed, along with support for customization via `@NumberFormat` and `@DateTimeFormat` on fields.
-
-To register custom formatters and converters in Java config, use the following:
-
-默认情况下，安装了各种数字和日期类型的格式化器，并支持通过字段上的“@NumberFormat”和“@DateTimeFormat”注解进行自定义。
+默认情况下，安装了各种数字和日期类型的格式化器，并支持通过字段上的`@NumberFormat`和`@DateTimeFormat`注解进行自定义。
 
 要在 Java 配置中注册自定义格式化器和转换器，请使用以下命令：
 
@@ -5036,8 +4750,6 @@ class WebConfig : WebFluxConfigurer {
     }
 }
 ```
-
-By default Spring WebFlux considers the request Locale when parsing and formatting date values. This works for forms where dates are represented as Strings with "input" form fields. For "date" and "time" form fields, however, browsers use a fixed format defined in the HTML spec. For such cases date and time formatting can be customized as follows:
 
 默认情况下，Spring WebFlux 在解析和格式化日期值时会考虑请求区域设置。 这适用于将日期表示为带有“输入”表单字段的字符串的表单。 但是，对于“日期”和“时间”表单字段，浏览器使用 HTML 规范中定义的固定格式。 对于这种情况，可以按如下方式自定义日期和时间格式：
 
@@ -5072,23 +4784,15 @@ class WebConfig : WebFluxConfigurer {
 }
 ```
 
-> **Note**
-> 
-> See [`FormatterRegistrar` SPI](core.xml#format-FormatterRegistrar-SPI) and the `FormattingConversionServiceFactoryBean` for more information on when to use `FormatterRegistrar` implementations.
-
 > **注意**
 >
-> 请参阅 [`FormatterRegistrar` SPI](core.xml#format-FormatterRegistrar-SPI) 和 `FormattingConversionServiceFactoryBean` 以获取有关何时使用 `FormatterRegistrar` 实现的更多信息。
+> 请参阅 [`FormatterRegistrar` SPI](https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#format-FormatterRegistrar-SPI) 和 `FormattingConversionServiceFactoryBean` 以获取有关何时使用 `FormatterRegistrar` 实现的更多信息。
 
 ## Validation
 
-[Web MVC](web.xml#mvc-config-validation)
+[Web MVC](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-config-validation)
 
-By default, if [Bean Validation](core.xml#validation-beanvalidation-overview) is present on the classpath (for example, the Hibernate Validator), the `LocalValidatorFactoryBean` is registered as a global [validator](core.xml#validator) for use with `@Valid` and `@Validated` on `@Controller` method arguments.
-
-In your Java configuration, you can customize the global `Validator` instance, as the following example shows:
-
-默认情况下，如果 [Bean Validation](core.xml#validation-beanvalidation-overview) 存在于类路径上（例如，Hibernate Validator），则`LocalValidatorFactoryBean` 被注册为全局 [validator](core.xml#validator) ，与 `@Valid` 和 `@Validated` 在 `@Controller` 方法参数上配合使用。
+默认情况下，如果 [Bean Validation](https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#validation-beanvalidation-overview) 存在于类路径上（例如，Hibernate Validator），则`LocalValidatorFactoryBean` 被注册为全局 [validator](https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#validator) ，与 `@Valid` 和 `@Validated` 在 `@Controller` 方法参数上配合使用。
 
 在您的 Java 配置中，您可以自定义全局 `Validator` 实例，如以下示例所示：
 
@@ -5121,8 +4825,6 @@ class WebConfig : WebFluxConfigurer {
 }
 ```
 
-Note that you can also register `Validator` implementations locally, as the following example shows:
-
 请注意，你还可以在局部注册 `Validator` 实现，如以下示例所示：
 
 **Java.**
@@ -5152,21 +4854,13 @@ class MyController {
 }
 ```
 
-> **Tip**
-> 
-> If you need to have a `LocalValidatorFactoryBean` injected somewhere, create a bean and mark it with `@Primary` in order to avoid conflict with the one declared in the MVC config.
-
 > **提示**
 >
 > 如果您需要在某处注入 `LocalValidatorFactoryBean`，请创建一个 bean 并用 `@Primary` 标记它以避免与 MVC 配置中声明的那个冲突。
 
 ## Content Type Resolvers
 
-[Web MVC](web.xml#mvc-config-content-negotiation)
-
-You can configure how Spring WebFlux determines the requested media types for `@Controller` instances from the request. By default, only the `Accept` header is checked, but you can also enable a query parameter-based strategy.
-
-The following example shows how to customize the requested content type resolution:
+[Web MVC](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-config-content-negotiation)
 
 你可以配置 Spring WebFlux 如何从请求中为 `@Controller` 实例确定请求的媒体类型。 默认情况下，仅检查 `Accept` 首部，但你也可以启用基于查询参数的策略。
 
@@ -5201,9 +4895,7 @@ class WebConfig : WebFluxConfigurer {
 
 ## HTTP message codecs
 
-[Web MVC](web.xml#mvc-config-message-converters)
-
-The following example shows how to customize how the request and response body are read and written:
+[Web MVC](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-config-message-converters)
 
 以下示例显示如何自定义读取和写入请求和响应正文的方式：
 
@@ -5234,24 +4926,6 @@ class WebConfig : WebFluxConfigurer {
 }
 ```
 
-`ServerCodecConfigurer` provides a set of default readers and writers. You can use it to add more readers and writers, customize the default ones, or replace the default ones completely.
-
-For Jackson JSON and XML, consider using [`Jackson2ObjectMapperBuilder`](https://docs.spring.io/spring-framework/docs/5.3.7/javadoc-api/org/springframework/http/converter/json/Jackson2ObjectMapperBuilder.html), which customizes Jackson’s default properties with the following ones:
-
-  - [`DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES`](https://fasterxml.github.io/jackson-databind/javadoc/2.6/com/fasterxml/jackson/databind/DeserializationFeature.html#FAIL_ON_UNKNOWN_PROPERTIES) is disabled.
-
-  - [`MapperFeature.DEFAULT_VIEW_INCLUSION`](https://fasterxml.github.io/jackson-databind/javadoc/2.6/com/fasterxml/jackson/databind/MapperFeature.html#DEFAULT_VIEW_INCLUSION) is disabled.
-
-It also automatically registers the following well-known modules if they are detected on the classpath:
-
-  - [`jackson-datatype-joda`](https://github.com/FasterXML/jackson-datatype-joda): Support for Joda-Time types.
-
-  - [`jackson-datatype-jsr310`](https://github.com/FasterXML/jackson-datatype-jsr310): Support for Java 8 Date and Time API types.
-
-  - [`jackson-datatype-jdk8`](https://github.com/FasterXML/jackson-datatype-jdk8): Support for other Java 8 types, such as `Optional`.
-
-  - [`jackson-module-kotlin`](https://github.com/FasterXML/jackson-module-kotlin): Support for Kotlin classes and data classes.
-
 `ServerCodecConfigurer` 提供了一组默认的读取器和写入器。你可以使用它来添加更多的读取器和写入器，自定义默认的，或完全替换默认的。
 
 对于 Jackson JSON 和 XML，请考虑使用 [`Jackson2ObjectMapperBuilder`](https://docs.spring.io/spring-framework/docs/5.3.7/javadoc-api/org/springframework/http/converter/json/Jackson2ObjectMapperBuilder.html)，它使用以下属性自定义 Jackson 的默认属性：
@@ -5272,9 +4946,7 @@ It also automatically registers the following well-known modules if they are det
 
 ## View Resolvers
 
-[Web MVC](web.xml#mvc-config-view-resolvers)
-
-The following example shows how to configure view resolution:
+[Web MVC](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-config-view-resolvers)
 
 以下示例展示如何配置视图解析：
 
@@ -5304,8 +4976,6 @@ class WebConfig : WebFluxConfigurer {
     }
 }
 ```
-
-The `ViewResolverRegistry` has shortcuts for view technologies with which the Spring Framework integrates. The following example uses FreeMarker (which also requires configuring the underlying FreeMarker view technology):
 
 `ViewResolverRegistry` 为 Spring 框架集成的视图技术提供了快捷方式。 下面的例子使用了 FreeMarker（也需要配置底层的 FreeMarker 视图技术）：
 
@@ -5353,8 +5023,6 @@ class WebConfig : WebFluxConfigurer {
 }
 ```
 
-You can also plug in any `ViewResolver` implementation, as the following example shows:
-
 你也可以自定义 `ViewResolver`的实现，如下例所示：
 
 **Java.**
@@ -5386,8 +5054,6 @@ class WebConfig : WebFluxConfigurer {
     }
 }
 ```
-
-To support [Content Negotiation](https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html#webflux-multiple-representations) and rendering other formats through view resolution (besides HTML), you can configure one or more default views based on the `HttpMessageWriterView` implementation, which accepts any of the available [Codecs](https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html#webflux-codecs) from `spring-web`. The following example shows how to do so:
 
 为了支持 [Content Negotiation](https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html#webflux-multiple-representations) 和通过视图分辨率渲染其他格式（除了 HTML)，你可以基于 `HttpMessageWriterView` 实现配置一个或多个默认视图，它接受任何可用的来自`spring-web` [Codecs](https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html#webflux-codecs)。 以下示例显示了如何执行此操作：
 
@@ -5430,17 +5096,11 @@ class WebConfig : WebFluxConfigurer {
 }
 ```
 
-See [View Technologies](https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html#webflux-view) for more on the view technologies that are integrated with Spring WebFlux.
-
 有关与 Spring WebFlux 集成的视图技术的更多信息，请参阅 [视图技术](https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html#webflux-view) .
 
 ## Static Resources
 
 [Web MVC](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-config-static-resources)
-
-This option provides a convenient way to serve static resources from a list of [`Resource`](https://docs.spring.io/spring-framework/docs/5.3.8/javadoc-api/org/springframework/core/io/Resource.html)-based locations.
-
-In the next example, given a request that starts with `/resources`, the relative path is used to find and serve static resources relative to `/static` on the classpath. Resources are served with a one-year future expiration to ensure maximum use of the browser cache and a reduction in HTTP requests made by the browser. The `Last-Modified` header is also evaluated and, if present, a `304` status code is returned. The following list shows the example:
 
 此选项提供了一种基于一系列[`Resource`](https://docs.spring.io/spring-framework/docs/5.3.8/javadoc-api/org/springframework/core/io/Resource.html) 的位置提供静态资源的方法。
 
@@ -5477,12 +5137,6 @@ class WebConfig : WebFluxConfigurer {
     }
 }
 ```
-
-The resource handler also supports a chain of [ResourceResolver](https://docs.spring.io/spring-framework/docs/5.3.8/javadoc-api/org/springframework/web/reactive/resource/ResourceResolver.html) implementations and [ResourceTransformer](https://docs.spring.io/spring-framework/docs/5.3.8/javadoc-api/org/springframework/web/reactive/resource/ResourceTransformer.html) implementations, which can be used to create a toolchain for working with optimized resources.
-
-You can use the `VersionResourceResolver` for versioned resource URLs based on an MD5 hash computed from the content, a fixed application version, or other information. A `ContentVersionStrategy` (MD5 hash) is a good choice with some notable exceptions (such as JavaScript resources used with a module loader).
-
-The following example shows how to use `VersionResourceResolver` in your Java configuration:
 
 资源处理器还支持配置 [ResourceResolver](https://docs.spring.io/spring-framework/docs/5.3.8/javadoc-api/org/springframework/web/reactive/resource/ResourceResolver.html) 实现和 [ResourceTransformer](https://docs.spring.io/spring-framework/docs/5.3.8/javadoc-api/org/springframework/web/reactive/resource/ResourceTransformer.html) 实现， 用来创建处理可优化资源的工具链。
 
@@ -5525,14 +5179,6 @@ class WebConfig : WebFluxConfigurer {
 }
 ```
 
-You can use `ResourceUrlProvider` to rewrite URLs and apply the full chain of resolvers and transformers (for example, to insert versions). The WebFlux configuration provides a `ResourceUrlProvider` so that it can be injected into others.
-
-Unlike Spring MVC, at present, in WebFlux, there is no way to transparently rewrite static resource URLs, since there are no view technologies that can make use of a non-blocking chain of resolvers and transformers. When serving only local resources, the workaround is to use `ResourceUrlProvider` directly (for example, through a custom element) and block.
-
-Note that, when using both `EncodedResourceResolver` (for example, Gzip, Brotli encoded) and `VersionedResourceResolver`, they must be registered in that order, to ensure content-based versions are always computed reliably based on the unencoded file.
-
-[WebJars](https://www.webjars.org/documentation) are also supported through the `WebJarsResourceResolver` which is automatically registered when the `org.webjars:webjars-locator-core` library is present on the classpath. The resolver can re-write URLs to include the version of the jar and can also match against incoming URLs without versions—for example, from `/jquery/jquery.min.js` to `/jquery/1.2.0/jquery.min.js`.
-
 你可以使用 `ResourceUrlProvider` 来重写 URL 并应用完整的解析器和转换器链（例如，插入版本）。 WebFlux 配置提供了一个 `ResourceUrlProvider`，以便它可以注入到其他地方。
 
 与 Spring MVC 不同，目前在 WebFlux 中，没有办法透明地重写静态资源 URL，因为没有视图技术可以利用解析器和转换器的非阻塞链。当仅提供本地资源时，解决方法是直接使用 `ResourceUrlProvider`（例如，通过自定义元素）并阻塞。
@@ -5544,8 +5190,6 @@ Note that, when using both `EncodedResourceResolver` (for example, Gzip, Brotli 
 ## Path Matching
 
 [Web MVC](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-config-path-matching)
-
-You can customize options related to path matching. For details on the individual options, see the [PathMatchConfigurer](https://docs.spring.io/spring-framework/docs/5.3.8/javadoc-api/org/springframework/web/reactive/config/PathMatchConfigurer.html) javadoc. The following example shows how to use `PathMatchConfigurer`:
 
 你可以自定义路径匹配相关的配置。有关各个选项的详细信息，请参阅 [PathMatchConfigurer](https://docs.spring.io/spring-framework/docs/5.3.8/javadoc-api/org/springframework/web/reactive/config/PathMatchConfigurer.html ) 文档。 以下示例演示了如何使用 `PathMatchConfigurer`：
 
@@ -5585,12 +5229,6 @@ class WebConfig : WebFluxConfigurer {
 }
 ```
 
-> **Tip**
-> 
-> Spring WebFlux relies on a parsed representation of the request path called `RequestPath` for access to decoded path segment values, with semicolon content removed (that is, path or matrix variables). That means, unlike in Spring MVC, you need not indicate whether to decode the request path nor whether to remove semicolon content for path matching purposes.
-> 
-> Spring WebFlux also does not support suffix pattern matching, unlike in Spring MVC, where we are also [recommend](web.xml#mvc-ann-requestmapping-suffix-pattern-match) moving away from reliance on it.
-
 > **提示**
 >
 > Spring WebFlux 依赖于称为 `RequestPath` 的请求路径的解析表示来访问解码的路径段值，其中删除了分号内容（即路径或矩阵变量）。 这意味着，与 Spring MVC 不同，你不需要指示是否对请求路径进行解码，也不需要出于路径匹配的目的而删除分号内容。
@@ -5598,10 +5236,6 @@ class WebConfig : WebFluxConfigurer {
 > Spring WebFlux 也不支持后缀模式匹配，不像在 Spring MVC 中，我们也在 [推荐](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-ann-requestmapping-suffix-pattern-match) 摆脱对它的依赖。
 
 ## WebSocketService
-
-The WebFlux Java config declares of a `WebSocketHandlerAdapter` bean which provides support for the invocation of WebSocket handlers. That means all that remains to do in order to handle a WebSocket handshake request is to map a `WebSocketHandler` to a URL via `SimpleUrlHandlerMapping`.
-
-In some cases it may be necessary to create the `WebSocketHandlerAdapter` bean with a provided `WebSocketService` service which allows configuring WebSocket server properties. For example:
 
 WebFlux Java 配置声明了一个`WebSocketHandlerAdapter` bean，它为调用 WebSocket 处理程序提供支持。 这意味着为了处理 WebSocket 握手请求，剩下要做的就是通过 `SimpleUrlHandlerMapping` 将 `WebSocketHandler` 映射到 URL。
 
@@ -5644,14 +5278,6 @@ class WebConfig : WebFluxConfigurer {
 
 [Web MVC](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-config-advanced-java)
 
-`@EnableWebFlux` imports `DelegatingWebFluxConfiguration` that:
-
-  - Provides default Spring configuration for WebFlux applications
-
-  - detects and delegates to `WebFluxConfigurer` implementations to customize that configuration.
-
-For advanced mode, you can remove `@EnableWebFlux` and extend directly from `DelegatingWebFluxConfiguration` instead of implementing `WebFluxConfigurer`, as the following example shows:
-
 `@EnableWebFlux` 导入了 `DelegatingWebFluxConfiguration`：
 
    - 为 WebFlux 应用程序提供默认的 Spring 配置
@@ -5680,14 +5306,11 @@ class WebConfig : DelegatingWebFluxConfiguration {
 }
 ```
 
-You can keep existing methods in `WebConfig`, but you can now also override bean declarations from the base class and still have any number of other `WebMvcConfigurer` implementations on the classpath.
-
 你可以在 `WebConfig` 中保留现有方法，也可以覆盖基类中的 bean 声明，并且在类路径上仍然有任意数量的其他 `WebMvcConfigurer` 实现。
 
 # HTTP/2
 
 [Web MVC](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-http2)
 
-HTTP/2 is supported with Reactor Netty, Tomcat, Jetty, and Undertow. However, there are considerations related to server configuration. For more details, see the [HTTP/2 wiki page](https://github.com/spring-projects/spring-framework/wiki/HTTP-2-support).
-
 Reactor Netty、Tomcat、Jetty 和 Undertow 支持 HTTP/2。 但是，有一些与服务器配置相关的注意事项。 更多详情请查看[HTTP/2 wiki页面](https://github.com/spring-projects/spring-framework/wiki/HTTP-2-support)。
+
